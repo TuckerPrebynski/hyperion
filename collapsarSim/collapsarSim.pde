@@ -18,9 +18,9 @@ void draw () {
   box(200);
   
   strokeWeight(10);
-  point(mouseX,mouseY,50);
   stroke(255);
   point(x,y,z);
+  point(mouseX,mouseY,50);
   x++;
   y++;
   z++;
