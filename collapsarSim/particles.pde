@@ -6,6 +6,7 @@ class Particle{
     int press;
     int density;
     int mass;
+    int temp; //colour value indicator
 
     boolean alive;
 
@@ -13,6 +14,7 @@ class Particle{
         pos = initPos.copy();
         vel = acc = new PVector(0.0, 0.0, 0.0);
         press = density = mass = 0;
+        temp = 255; //white for now, can change l8r
         alive = true;
     }
 
@@ -21,8 +23,5 @@ class Particle{
             vel.add(acc);
             pos.add(vel);
         }
-    }
-
-    void display(){
     }
 }
