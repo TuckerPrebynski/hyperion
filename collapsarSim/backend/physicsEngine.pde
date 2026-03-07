@@ -1,3 +1,31 @@
+// ParticleData.pde
+// Shared data structure for particles accessed by both physics and frontend
+
+class ParticleData {
+  int maxParticles;
+  int activeCount;
+  
+  // Position
+  float[] x, y, z;
+  // Velocity
+  float[] vx, vy, vz;
+  // Temperature (for rendering)
+  float[] temperature;
+  
+  ParticleData(int maxParticles) {
+    this.maxParticles = maxParticles;
+    this.activeCount = 0;
+    
+    x = new float[maxParticles];
+    y = new float[maxParticles];
+    z = new float[maxParticles];
+    vx = new float[maxParticles];
+    vy = new float[maxParticles];
+    vz = new float[maxParticles];
+    temperature = new float[maxParticles];
+  }
+}
+
 // PhysicsEngine.pde
 // BACKEND: Handles all math, forces, and integration.
 
