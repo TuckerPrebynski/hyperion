@@ -3,19 +3,26 @@ class Particle{
     PVector vel;
     PVector acc;
 
-    char alive;
+    int press;
+    int density;
+    int mass;
+
+    boolean alive;
 
     Particle(PVector initPos){
         pos = initPos.copy();
-        vel = acc = new PVector(0.0, 0.0);
-        alive = 1;
+        vel = acc = new PVector(0.0, 0.0, 0.0);
+        press = density = mass = 0;
+        alive = true;
     }
-}
 
-void update(){
+    void update(){
+        if(alive){
+            vel.add(acc);
+            pos.add(vel);
+        }
+    }
 
-}
-
-void display(){
-
+    void display(){
+    }
 }
