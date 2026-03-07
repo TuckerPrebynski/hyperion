@@ -6,7 +6,7 @@ ParticleData sharedData;
 
 // 2. The Team Modules
 PhysicsEngine backend;
-Renderer frontend;
+// Renderer frontend;
 
 // Global settings
 int MAX_PARTICLES = 20000; 
@@ -23,8 +23,8 @@ void setup() {
   initStar(sharedData); 
   
   // 2. Initialize the team modules, passing them the shared data
-  backend = new PhysicsEngine(sharedData);
-  frontend = new Renderer(sharedData, this); // 'this' passes the Processing context for P3D
+  //backend = new PhysicsEngine(sharedData);
+  //frontend = new Renderer(sharedData, this); // 'this' passes the Processing context for P3D
   
   println("Simulation Initialized. Ready for collapse.");
 }
@@ -34,11 +34,11 @@ void draw() {
   
   // Step 1: Backend calculates the next frame of reality
   // (Gravity, SPH pressure, Black Hole accretion)
-  backend.update();
+//  backend.update();
   
   // Step 2: Frontend paints reality to the screen
   // (Additive blending, camera rotation, color mapping)
-  frontend.render();
+//  frontend.render();
   
   // Step 3: Hackathon UI/Debugging
   surface.setTitle("Collapsar Sim | FPS: " + round(frameRate) + " | Particles: " + sharedData.activeCount);
