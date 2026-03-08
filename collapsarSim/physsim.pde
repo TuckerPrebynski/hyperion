@@ -1,6 +1,6 @@
 float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
-    float collapseDensityThreshold = 22.0f; // TUNE THIS: How dense before it collapses?
+    float collapseDensityThreshold = 10.0f; // TUNE THIS: How dense before it collapses?
     
     
     //sph params
@@ -19,7 +19,8 @@ float dt = 0.016f;
     float softeningSq = 10.0f; // Prevents infinite forces when particles overlap
     float theta = 0.5f;       // Accuracy vs Speed threshold. 0.5 is standard.
     
-
+int stepsleft = 5;
+float stepsscale = .7;
 class physics_eng {
     float[] ax; 
     float[] ay; 
@@ -102,8 +103,9 @@ class physics_eng {
                 if (p.density > collapseDensityThreshold) {
                     println("STAR COLLAPSED! Black Hole Formed!");
                     // Give it a massive starting weight and a radius based on your SPH h
-                    bh = new BlackHole(p.pos, p.vel, p.mass * 120.0f, searchRadius * 3.0f);
+                    bh = new BlackHole(p.pos, p.vel, p.mass * 120.0f * p.density, searchRadius * 3.0f);
                     p.alive = false;
+                    
                     break; 
                 }
                 
@@ -112,7 +114,10 @@ class physics_eng {
         } else {
             // The Black Hole is alive. Eat particles and apply extreme gravity.
             bh.accrete(mySystem, gravityG);
-            bh.applyGravity(mySystem, ax, ay, az, gravityG);
+            bh.applyGravity(ax, ay, az, gravityG);
+            if(stepsleft > 0){
+              stepsleft --;
+            }
         }
         
          for (int i = 0; i < mySystem.numParts; i++) {
