@@ -1,7 +1,7 @@
 # HackCU 2026: Hyperion 
 
 <p align="center">
-<strong>*"Gravity Is The Harshest Critic"*</strong>
+<strong>"Gravity Is The Harshest Critic"</strong>
 </p>
 
 
