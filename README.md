@@ -30,10 +30,10 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 <a id="meet-the-team"></a>
 ## 👥 Meet the Team
 
-* **Channa J**: Organization, Logo/Art, Documentation, and Research.
-* **Dan O**: Camerawork and Development
-* **Lila P**: Physics and Development
-* **Sage E**: Graphics and Shaders Development
+* [**Channa J**](https://github.com/FireEmblem3h): Organization, Logo/Art, Documentation, and Research.
+* [**Dan O**](https://github.com/cult-of-maxwellism): Camerawork and Development
+* [**Lila P**](https://github.com/TuckerPrebynski): Physics and Development
+* [**Sage E**](https://github.com/b00kworm4lyf3): Graphics and Shaders Development
 
 
 <a id="framework-and-implementation"></a>
