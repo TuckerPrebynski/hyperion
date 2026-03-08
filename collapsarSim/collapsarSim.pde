@@ -14,7 +14,7 @@ void setup () {
 
     myRenderer = new oldRender (mySystem);
     
-    myRenderer = new Render (mySystem);
+    //myRenderer = new Render (mySystem);
     myRenderer.init();
 
     myPhys = new physics_eng(mySystem);

@@ -7,7 +7,8 @@ class physics_eng {
     System data;
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
-    
+    BlackHole bh = null; 
+    float collapseDensityThreshold = 21.0f; // TUNE THIS: How dense before it collapses?
     BarnesHutTree gravityTree;
     // The SPH 'h' value (how far particles look for neighbors)
     float searchRadius = 20.0f; 
@@ -24,16 +25,16 @@ class physics_eng {
     float smoothingRadius = 20.0f; // The 'h' in SPH math
     
     SPHKernels kernels;
-    float restDensity = 1000.0f; // Tuning variable: How densely packed should the star be?
-    float gasConstant = 2000.0f; // Tuning variable: How stiff/bouncy is the plasma?
+    float restDensity = 5.0f; // Tuning variable: How densely packed should the star be?
+    float gasConstant = 50.0f; // Tuning variable: How stiff/bouncy is the plasma?
 
 // In your constructor: 
 // Setup grid (e.g., 64x64x64 grid, cells exactly the size of your smoothing radius)
     PointHashGridSearcher3 gridSearcher = new PointHashGridSearcher3(64, 64, 64, smoothingRadius);
     
     physics_eng(System sharedData) {
-        this.data = new System(sharedData);
-        int max = data.maxParts; //<>// //<>//
+        this.data = new System(sharedData); //<>//
+        int max = data.maxParts; //<>//
         gravityTree = new BarnesHutTree(max);
         kernels = new SPHKernels(smoothingRadius);
 
@@ -64,9 +65,34 @@ class physics_eng {
         // Step 3: Now we can calculate SPH forces using the cached lists!
         calculateDensityAndPressure();
        
+       if (bh == null) {
+            // Scan for a collapse
+            float maxDensity = 0.0;
+            for (int i = 0; i < data.particles.size(); i++) {
+                Particle p = data.particles.get(i);
+                if(p.density > maxDensity){
+                  maxDensity = p.density;
+                }
+                if (p.density > collapseDensityThreshold) {
+                    println("STAR COLLAPSED! Black Hole Formed!");
+                    // Give it a massive starting weight and a radius based on your SPH h
+                    bh = new BlackHole(p.pos, p.vel, p.mass * 100.0f, searchRadius * 3.0f);
+                    p.alive = false;
+                    break; 
+                }
+                
+            }
+            println("Max density: ",maxDensity);
+        } else {
+            // The Black Hole is alive. Eat particles and apply extreme gravity.
+            bh.accrete(data, gravityTree.gravityG);
+            bh.applyGravity(data, ax, ay, az, gravityTree.gravityG);
+        }
+        
          for (int i = 0; i < data.numParts; i++) {
              gravityTree.applyGravity(i, data, ax, ay, az);
          }
+         
         //println("first point pos. x:", data.particles.get(0).pos.x, ", y:", data.particles.get(0).pos.y, ", z:", data.particles.get(0).pos.z);
         //println("first point vel. x:", data.particles.get(0).vel.x, ", y:", data.particles.get(0).vel.y, ", z:", data.particles.get(0).vel.z);
         //println("density: ",data.particles.get(0).density, "presssure:",data.particles.get(0).press);
@@ -83,15 +109,27 @@ class physics_eng {
   }
     private void integrate() {
     for (int i = 0; i < data.numParts; i++) {
+      Particle p = data.particles.get(i);
+      if (!p.alive) {
+                data.particles.remove(i);
+                ax.remove(i);
+                ay.remove(i);
+                az.remove(i);
+                data.numParts--;
+                continue;
+            }
+            
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
-      data.particles.get(i).vel.x += ax.get(i) * dt;
-      data.particles.get(i).vel.y += ay.get(i) * dt;
-      data.particles.get(i).vel.z += az.get(i) * dt;
+      float friction = 0.995f;
+      p.vel.x += ax.get(i) * dt;
+      p.vel.y += ay.get(i) * dt;
+      p.vel.z += az.get(i) * dt;
       
+      p.vel.mult(friction);
       // Then Update Position using the NEW velocity
-      data.particles.get(i).pos.x += data.particles.get(i).vel.x * dt;
-      data.particles.get(i).pos.y += data.particles.get(i).vel.y * dt;
-      data.particles.get(i).pos.z += data.particles.get(i).vel.z * dt;
+      p.pos.x += p.vel.x * dt;
+      p.pos.y += p.vel.y * dt;
+      p.pos.z += p.vel.z * dt;
       
       // Optional: Update temperature based on velocity/pressure 
       // so the frontend team can make fast particles glow brighter!
@@ -141,7 +179,14 @@ class physics_eng {
         // Calculate Pressure using Tait Equation of State (Equation of State for fluids)
         // P = k * (density - rest_density)
         // We max(0, ...) so particles don't suck each other together when spread out
-        data.particles.get(i).press = max(0.0f, gasConstant * (density - restDensity)); 
+        // THE TAIT EQUATION OF STATE
+      // P = k * ((rho / rho_0)^gamma - 1)
+        // We use gamma = 2.0 or 3.0 for a very stiff core, avoiding slow Math.pow()
+        float densityRatio = density / restDensity;
+        float gammaTerm = densityRatio * densityRatio * densityRatio; // Gamma = 3
+
+        data.particles.get(i).press = max(0.0f, gasConstant * (gammaTerm - 1.0f));
+        //data.particles.get(i).press = max(0.0f, gasConstant * (density - restDensity)); 
     }
 
     // PASS 2: Calculate Pressure Forces (Pushing apart)
@@ -172,11 +217,37 @@ class physics_eng {
                 float dirZ = dz / dist;
                 
                 // Total force magnitude from this neighbor
-                float forceMag = data.particles.get(j).mass * pressureTerm * gradW;
+          
                 
-                forceX += dirX * forceMag;
-                forceY += dirY * forceMag;
-                forceZ += dirZ * forceMag;
+                // Inside PASS 2 of calculateDensityAndPressure()
+//float dx = data.particles.get(i).pos.x - data.particles.get(j).pos.x;
+//float dy = data.particles.get(i).pos.y - data.particles.get(j).pos.y;
+//float dz = data.particles.get(i).pos.z - data.particles.get(j).pos.z;
+
+// Calculate relative velocity
+float dvx = data.particles.get(i).vel.x - data.particles.get(j).vel.x;
+float dvy = data.particles.get(i).vel.y - data.particles.get(j).vel.y;
+float dvz = data.particles.get(i).vel.z - data.particles.get(j).vel.z;
+
+// Dot product of relative velocity and relative position
+float dotProduct = (dx * dvx) + (dy * dvy) + (dz * dvz);
+
+float viscosityForce = 0.0f;
+float alphaVisc = 25.0f; // Tuning variable: How thick/syrupy is the shockwave?
+
+// ONLY apply viscosity if particles are moving TOWARDS each other (dot product < 0)
+if (dotProduct < 0.0f) {
+    // Standard Monaghan artificial viscosity formulation (simplified)
+    float mu = (smoothingRadius * dotProduct) / (distSq + 0.01f); // 0.01 prevents div by zero
+    viscosityForce = -alphaVisc * mu / (data.particles.get(i).density + data.particles.get(j).density);
+}
+
+// Add the viscosity term to the pressure term!
+float totalForceMag = data.particles.get(j).mass * (pressureTerm + viscosityForce) * gradW;
+
+forceX += dirX * totalForceMag;
+forceY += dirY * totalForceMag;
+forceZ += dirZ * totalForceMag;
             }
         }
         

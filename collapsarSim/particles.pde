@@ -15,7 +15,7 @@ class Particle{
         vel = new PVector(0.0, 0.0, 0.0);
         acc = new PVector(0.0, 0.0, 0.0);
         press = density = 0;
-        mass = 1.0;
+        mass = 100.0;
         temp = 255; //white for now, can change l8r
         alive = true;
     }
@@ -36,10 +36,5 @@ class Particle{
             vel.add(acc);
             pos.add(vel);
         }
-    }
-
-    String toString(){
-        return "position = " + pos + " velocity = " + vel + " acceleration = " + acc + 
-               " pressure = " + press + " density = " + density + " mass = " + mass + " temp = " + temp + " alive = " + alive;
     }
 }

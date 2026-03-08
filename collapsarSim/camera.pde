@@ -9,7 +9,7 @@ class SimCamera {
 
   float eyeX, eyeY, eyeZ;
 
-  int num;
+  //int num;
 
   boolean is_moving;
   boolean rWasPressed;
@@ -23,10 +23,10 @@ class SimCamera {
     targetY = height/2;
     targetZ = 0;
     
-    num = 0;
+    //num = 0;
 
     is_moving = true;
-    rWasPressed = false;
+    rWasPressed = false;    
   }
 
   void apply() {
@@ -42,44 +42,61 @@ class SimCamera {
     }
 
     //movement-logic
+    float orbitSpeed = 0.05;
     if (is_moving) {
       theta += 0.05;
     } else {
+      /*
       if (mousePressed) {
         theta -= (mouseX - pmouseY)*0.1;
         phi -= (mouseY - pmouseY)*0.1;
 
         phi = constrain(phi, -PI/2.1, PI/2.1);
       }
+        */
+
+      
 
       if (keyPressed) {
-        float rightX = cos(theta);
-        float rightZ = -sin(theta);
-        float panSpeed = 10.0;
+        
+        //float rightX = cos(theta);
+        //float rightZ = -sin(theta);
+        //float panSpeed = 10.0;
 
         if (keyCode == LEFT) {
-            targetX -= rightX * panSpeed;
-            targetZ -= rightZ * panSpeed;
+            theta -= orbitSpeed;
+            //targetX -= rightX * panSpeed;
+            //targetZ -= rightZ * panSpeed;
         }
         if (keyCode == RIGHT) {
-            targetX += rightX * panSpeed;
-            targetZ += rightZ * panSpeed;
-        }
-        if (keyCode == UP) {
-          targetY -= panSpeed;
-        }
-        if (keyCode == DOWN) {
-          targetY += panSpeed;
+            theta += orbitSpeed;
+            //targetX += rightX * panSpeed;
+            //targetZ += rightZ * panSpeed;
         }
       }
+    }
+
+    if (keyPressed) {
+      if (keyCode == UP) {
+          phi -= orbitSpeed;
+          //targetY -= panSpeed;
+        }
+        if (keyCode == DOWN) {
+          phi += orbitSpeed;
+          //targetY += panSpeed;
+        }
     }
 
     eyeX = targetX + radius * cos(phi) * sin(theta);
     eyeY = targetY + radius * sin(phi);
     eyeZ = targetZ + radius * cos(phi) * cos(theta);
 
+    float upY = 1.0;
+    if (cos(phi) < 0) {
+        upY = -1.0;
+    }
 
-    camera(eyeX, eyeY, eyeZ, targetX, targetY, targetZ, 0, 1, 0);
+    camera(eyeX, eyeY, eyeZ, targetX, targetY, targetZ, 0, upY, 0);
   }
 }
 /*

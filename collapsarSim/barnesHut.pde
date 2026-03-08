@@ -27,7 +27,7 @@ class BarnesHutTree {
     int nextAvailableNode = 0;
     
     float theta = 0.5f;       // Accuracy vs Speed threshold. 0.5 is standard.
-    float gravityG = 5.0f;    // Gravitational Constant (Tuned for the simulation)
+    float gravityG = 20.0f;    // Gravitational Constant (Tuned for the simulation)
     float softeningSq = 10.0f; // Prevents infinite forces when particles overlap
 
     BarnesHutTree(int maxParticles) {
