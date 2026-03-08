@@ -14,7 +14,7 @@ void setup () {
 
     myRenderer = new oldRender (mySystem);
     
-    myRenderer = new Render (mySystem);
+    //myRenderer = new Render (mySystem);
     myRenderer.init();
 
     myPhys = new physics_eng(mySystem);
@@ -42,7 +42,7 @@ void draw () {
   box(250);
 
   //mandatory update stuff
-  myRenderer.display();
+  myRenderer.display(x,y,z);
   myPhys.update();
 
   myGUI.display();
