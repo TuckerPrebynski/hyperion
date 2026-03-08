@@ -47,33 +47,33 @@ class GUI {
 
     noStroke();
     fill(0, 150);
-    // Made the box slightly taller to fit the new data
-    rect(10, 10, 380, 260, 10);
+    // Expand box for larger 30+ fonts
+    rect(10, 10, 600, 480, 10);
 
     // --- LEFT ALIGNED (TELEMETRY) ---
-     textFont(fTelemetry, 16);
+     textFont(fTelemetry, 30);
      fill(255, 150, 0);
-     text("BLACK HOLE MASS: " + nf(renderBhMass, 0, 2) + " Solar Masses", 20, 50);
-     text("ENERGY OUTPUT:   " + nf(ergsPerFrameObj, 0, 2) + " x 10^51 Ergs", 20, 70);
-     text("ACCRETION RATE:  " + nf(massPerFrameObj, 0, 4) + " M/dt", 20, 90);
+     text("BLACK HOLE MASS: " + nf(renderBhMass, 0, 2) + " Solar Masses", 30, 30);
+     text("ENERGY OUTPUT:   " + nf(ergsPerFrameObj, 0, 2) + " x 10^51 Ergs", 30, 70);
+     text("ACCRETION RATE:  " + nf(massPerFrameObj, 0, 4) + " M/dt", 30, 110);
      
      // --- RIGHT ALIGNED (CONTROLS HELP) ---
-     textFont(fUI, 16);
+     textFont(fUI, 30);
      fill(200);
-     text("[SPACE]  PAUSE SIMULATION", 20, 130);
-     text("[R]      RESET SYSTEM", 20, 150);
-     text("[C]      TRIGGER COLLAPSE", 20, 170); // Optional implementation depending on physics
-     text("[+/-]    ZOOM CAMERA", 20, 190);
-     text("[S/F]    TOGGLE SLOW-MO", 20, 210);
+     text("[SPACE]  PAUSE SIMULATION", 30, 180);
+     text("[R]      RESET SYSTEM", 30, 220);
+     text("[C]      TRIGGER COLLAPSE", 30, 260); // Optional implementation depending on physics
+     text("[+/-]    ZOOM CAMERA", 30, 300);
+     text("[S/F]    TOGGLE SLOW-MO", 30, 340);
      
      // --- BOTTOM CENTER (STATUS) ---
-     textFont(fStatus, 18);
+     textFont(fStatus, 32);
      if (renderBhExists) {
         fill(255, 50, 50);
-        text("STATUS: RELATIVISTIC JET DETECTED", 20, 240);
+        text("STATUS: RELATIVISTIC JET DETECTED", 30, 410);
      } else {
         fill(50, 255, 50);
-        text("STATUS: MAIN SEQUENCE STABLE", 20, 240);
+        text("STATUS: MAIN SEQUENCE STABLE", 30, 410);
      }
      
     /*
@@ -82,35 +82,40 @@ class GUI {
     
     // Draw Right Side Data
     pushMatrix();
-    translate(width - 350, 10);
+    translate(width - 600, 10);
     fill(0, 150);
-    rect(0, 0, 340, 260, 10);
+    rect(0, 0, 580, 480, 10);
     
-    textFont(fTitle, 22);
+    textFont(fTitle, 40);
     fill(0, 255, 100);
-    text("--- ENG READOUTS ---", 20, 20);
+    text("--- ENG READOUTS ---", 30, 30);
 
-    textFont(fTelemetry, 16);
+    textFont(fTelemetry, 30);
     fill(255);
-    text("Cam X: " + nf(myCam.eyeX, 0, 2), 20, 50);
-    text("Cam Y: " + nf(myCam.eyeY, 0, 2), 20, 70);
-    text("Cam Z: " + nf(myCam.eyeZ, 0, 2), 20, 90);
+    text("Cam X: " + nf(myCam.eyeX, 0, 2), 30, 90);
+    text("Cam Y: " + nf(myCam.eyeY, 0, 2), 30, 130);
+    text("Cam Z: " + nf(myCam.eyeZ, 0, 2), 30, 170);
 
-    textFont(fTitle, 22);
+    textFont(fTitle, 40);
     fill(0, 255, 100);
-    text("--- TELEMETRY ---", 20, 130);
+    text("--- TELEMETRY ---", 30, 240);
     
-    textFont(fTelemetry, 16);
+    textFont(fTelemetry, 30);
     fill(255);
 
     // Print the active particle count
-    text("Active Mass: " + activeParticles, 20, 160);
+    text("Active Mass: " + activeParticles, 30, 300);
     // Print the raw units and the scientific units!
-    text("Avg Vel: " + nf(avgVelRaw, 0, 2) + " u/tick", 20, 180);
+    text("Avg Vel: " + nf(avgVelRaw, 0, 2) + " u/tick", 30, 350);
     // Uncomment this next line if you want to show the realistic km/s and % speed of light!
-    text("Speed: " + nf(speedKmS, 0, 0) + " km/s", 20, 200);
-    text("(" + nf(percentLight, 0, 2) + "% lightspeed)", 20, 220);
+    text("Speed: " + nf(speedKmS, 0, 0) + " km/s", 30, 400);
+    text("(" + nf(percentLight, 0, 2) + "% lightspeed)", 30, 440);
     popMatrix();
+    
+    // Draw Logo Bottom Right
+    if (logoImg != null) {
+      image(logoImg, width - logoImg.width - 20, height - logoImg.height - 20);
+    }
 
     hint(ENABLE_DEPTH_TEST);
     popMatrix();
