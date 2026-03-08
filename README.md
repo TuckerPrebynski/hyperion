@@ -34,16 +34,18 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 ![5K](media/img1.png)
 
-**{Video} Particles formed into a spherical object vid1**
+**Particles formed into a spherical object**
 
-![5K](media/gif1.gif)
+![ThrowEmInACircle](media/gif1.gif)
 
-**{Video} First peek of the camera work vid2**
+**First peek of the camera work**
 
-**{Video} Shape structure vid3** 
+![CameraworkDraft](media/gif2.gif)
 
-**{Video} Implosion draft vid4**
+**Shape structure** 
 
-**{Video} Black Hole draft vid6**
+**Implosion draft**
+
+**Black Hole draft**
 
 # hyperion
