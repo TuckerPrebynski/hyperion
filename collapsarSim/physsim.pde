@@ -1,22 +1,39 @@
+float dt = 0.016f; 
+    float simBounds = 2000.0f; // Total width of your simulation box
+    float collapseDensityThreshold = 25.0f; // TUNE THIS: How dense before it collapses?
+    
+    
+    //sph params
+    float smoothingRadius = 20.0f; // The 'h' in SPH math
+    float restDensity = 5.0f; // Tuning variable: How densely packed should the star be?
+    float gasConstant = 50.0f; // Tuning variable: How stiff/bouncy is the plasma?
+    
+    float friction = 0.995f;
+    
+    //Viscosity of mongahan in pressure calc
+    float alphaVisc = 25.0f; // Tuning variable: How thick/syrupy is the shockwave?
+  
 
+    //BarnesHut params (GRAVITY)
+    float gravityG = 20.0f;    // Gravitational Constant (Tuned for the simulation)
+    float softeningSq = 10.0f; // Prevents infinite forces when particles overlap
+    float theta = 0.5f;       // Accuracy vs Speed threshold. 0.5 is standard.
+    
 
 class physics_eng {
     FloatList ax = new FloatList(); 
     FloatList ay = new FloatList(); 
     FloatList az = new FloatList();
-    System data;
-    float dt = 0.016f; 
-    float simBounds = 2000.0f; // Total width of your simulation box
+    
     public BlackHole bh = null; 
-    float collapseDensityThreshold = 25.0f; // TUNE THIS: How dense before it collapses?
+
     BarnesHutTree gravityTree;
     // The SPH 'h' value (how far particles look for neighbors)
-    float searchRadius = 20.0f; 
-
+    float searchRadius = 20.0f;
     float maxDensity = 0.0;
     
     // 1. The spatial hash grid
-    
+     //<>//
     
     // 2. The neighbor cache (Array of IntLists)
     IntList[] neighborLists;
@@ -24,19 +41,17 @@ class physics_eng {
     // 3. Our reusable callback
     CachingCallback cacheCallback;
     
-    float smoothingRadius = 20.0f; // The 'h' in SPH math
+    
     
     SPHKernels kernels;
-    float restDensity = 5.0f; // Tuning variable: How densely packed should the star be?
-    float gasConstant = 50.0f; // Tuning variable: How stiff/bouncy is the plasma?
+    
 
 // In your constructor: 
 // Setup grid (e.g., 64x64x64 grid, cells exactly the size of your smoothing radius)
     PointHashGridSearcher3 gridSearcher = new PointHashGridSearcher3(64, 64, 64, smoothingRadius);
     
-    physics_eng(System sharedData) {
-        this.data = new System(sharedData); //<>//
-        int max = data.maxParts; //<>//
+    physics_eng() {
+        int max = mySystem.maxParts; 
         gravityTree = new BarnesHutTree(max);
         kernels = new SPHKernels(smoothingRadius);
 
@@ -56,10 +71,10 @@ class physics_eng {
     public void update() {
         resetAccelerations();
         
-        gravityTree.build(data, simBounds);
+        gravityTree.build(mySystem, simBounds);
         
         // Step 1: Build the searcher grid with current particle positions
-        gridSearcher.build(data);
+        gridSearcher.build(mySystem);
         
         // Step 2: Build the neighbor lists cache (Translated from textbook)
         buildNeighborLists();
@@ -70,8 +85,8 @@ class physics_eng {
        if (bh == null) {
             // Scan for a collapse
             
-            for (int i = 0; i < data.particles.size(); i++) {
-                Particle p = data.particles.get(i);
+            for (int i = 0; i < mySystem.particles.size(); i++) {
+                Particle p = mySystem.particles.get(i);
                 if(p.density > maxDensity){
                   maxDensity = p.density;
                 }
@@ -87,42 +102,42 @@ class physics_eng {
             println("Max density: ",maxDensity);
         } else {
             // The Black Hole is alive. Eat particles and apply extreme gravity.
-            bh.accrete(data, gravityTree.gravityG);
-            bh.applyGravity(data, ax, ay, az, gravityTree.gravityG);
+            bh.accrete(mySystem, gravityG);
+            bh.applyGravity(mySystem, ax, ay, az, gravityG);
         }
         
-         for (int i = 0; i < data.numParts; i++) {
-             gravityTree.applyGravity(i, data, ax, ay, az);
+         for (int i = 0; i < mySystem.numParts; i++) {
+             gravityTree.applyGravity(i, mySystem, ax, ay, az);
          }
          
-        // println("first point pos. x:", data.particles.get(0).pos.x, ", y:", data.particles.get(0).pos.y, ", z:", data.particles.get(0).pos.z);
-        // println("first point vel. x:", data.particles.get(0).vel.x, ", y:", data.particles.get(0).vel.y, ", z:", data.particles.get(0).vel.z);
-        // println("density: ",data.particles.get(0).density, "presssure:",data.particles.get(0).press);
+        // println("first point pos. x:", mySystem.particles.get(0).pos.x, ", y:", mySystem.particles.get(0).pos.y, ", z:", mySystem.particles.get(0).pos.z);
+        // println("first point vel. x:", mySystem.particles.get(0).vel.x, ", y:", mySystem.particles.get(0).vel.y, ", z:", mySystem.particles.get(0).vel.z);
+        // println("density: ",mySystem.particles.get(0).density, "presssure:",mySystem.particles.get(0).press);
         // println("neighbors: ", neighborLists[0]);
         integrate();
     }
     private void resetAccelerations() {
 
-        for (int i = 0; i < data.numParts; i++){
+        for (int i = 0; i < mySystem.numParts; i++){
           ax.set(i,0.0);
           ay.set(i,0.0);
           az.set(i,0.0);
         }
   }
     private void integrate() {
-    for (int i = 0; i < data.numParts; i++) {
-      Particle p = data.particles.get(i);
+    for (int i = 0; i < mySystem.numParts; i++) {
+      Particle p = mySystem.particles.get(i);
       if (!p.alive) {
-                data.particles.remove(i);
+                mySystem.particles.remove(i);
                 ax.remove(i);
                 ay.remove(i);
                 az.remove(i);
-                data.numParts--;
+                mySystem.numParts--;
                 continue;
             }
             
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
-      float friction = 0.995f;
+      
       p.vel.x += ax.get(i) * dt;
       p.vel.y += ay.get(i) * dt;
       p.vel.z += az.get(i) * dt;
@@ -135,13 +150,13 @@ class physics_eng {
       
       // Optional: Update temperature based on velocity/pressure 
       // so the frontend team can make fast particles glow brighter!
-      // data.temperature[i] = ... 
+      // mySystem.temperature[i] = ... 
       
     }
   }
-    // Translated from the textbook's ParticleSystemData3::buildNeighborLists
+    // Translated from the textbook's ParticleSystemmySystem3::buildNeighborLists
     private void buildNeighborLists() {
-        for (int i = 0; i < data.numParts; i++) {
+        for (int i = 0; i < mySystem.numParts; i++) {
             // 1. Clear the list for the current particle
             neighborLists[i].clear();
             
@@ -150,9 +165,9 @@ class physics_eng {
             
             // 3. Run the search. The callback will populate neighborLists[i]
             gridSearcher.forEachNearbyPoint(
-                data.particles.get(i).pos.x, data.particles.get(i).pos.y, data.particles.get(i).pos.z, 
+                mySystem.particles.get(i).pos.x, mySystem.particles.get(i).pos.y, mySystem.particles.get(i).pos.z, 
                 searchRadius, 
-                data, 
+                mySystem, 
                 cacheCallback
             );
         }
@@ -160,23 +175,23 @@ class physics_eng {
 
     private void calculateDensityAndPressure() {
     // PASS 1: Calculate Density
-    for (int i = 0; i < data.numParts; i++) {
+    for (int i = 0; i < mySystem.numParts; i++) {
         // A particle always has at least its own mass/density
-        float density = data.particles.get(i).mass * kernels.poly6(0); 
+        float density = mySystem.particles.get(i).mass * kernels.poly6(0); 
         
         IntList neighbors = neighborLists[i];
         for (int k = 0; k < neighbors.size(); k++) {
             int j = neighbors.get(k);
             
-            float dx = data.particles.get(i).pos.x - data.particles.get(j).pos.x;
-            float dy = data.particles.get(i).pos.y - data.particles.get(j).pos.y;
-            float dz = data.particles.get(i).pos.z - data.particles.get(j).pos.z;
+            float dx = mySystem.particles.get(i).pos.x - mySystem.particles.get(j).pos.x;
+            float dy = mySystem.particles.get(i).pos.y - mySystem.particles.get(j).pos.y;
+            float dz = mySystem.particles.get(i).pos.z - mySystem.particles.get(j).pos.z;
             float distSq = (dx*dx) + (dy*dy) + (dz*dz);
             
-            density += data.particles.get(i).mass * kernels.poly6(distSq);
+            density += mySystem.particles.get(i).mass * kernels.poly6(distSq);
         }
         
-        data.particles.get(i).density = density;
+        mySystem.particles.get(i).density = density;
         
         // Calculate Pressure using Tait Equation of State (Equation of State for fluids)
         // P = k * (density - rest_density)
@@ -187,29 +202,29 @@ class physics_eng {
         float densityRatio = density / restDensity;
         float gammaTerm = densityRatio * densityRatio * densityRatio; // Gamma = 3
 
-        data.particles.get(i).press = max(0.0f, gasConstant * (gammaTerm - 1.0f));
-        //data.particles.get(i).press = max(0.0f, gasConstant * (density - restDensity)); 
+        mySystem.particles.get(i).press = max(0.0f, gasConstant * (gammaTerm - 1.0f));
+        //mySystem.particles.get(i).press = max(0.0f, gasConstant * (density - restDensity)); 
     }
 
     // PASS 2: Calculate Pressure Forces (Pushing apart)
-    for (int i = 0; i < data.numParts; i++) {
+    for (int i = 0; i < mySystem.numParts; i++) {
         float forceX = 0, forceY = 0, forceZ = 0;
         
         IntList neighbors = neighborLists[i];
         for (int k = 0; k < neighbors.size(); k++) {
             int j = neighbors.get(k);
             
-            float dx = data.particles.get(i).pos.x - data.particles.get(j).pos.x;
-            float dy = data.particles.get(i).pos.y - data.particles.get(j).pos.y;
-            float dz = data.particles.get(i).pos.z - data.particles.get(j).pos.z;
+            float dx = mySystem.particles.get(i).pos.x - mySystem.particles.get(j).pos.x;
+            float dy = mySystem.particles.get(i).pos.y - mySystem.particles.get(j).pos.y;
+            float dz = mySystem.particles.get(i).pos.z - mySystem.particles.get(j).pos.z;
             float distSq = (dx*dx) + (dy*dy) + (dz*dz);
             float dist = sqrt(distSq); // Unavoidable sqrt() for Spiky kernel
             
             if (dist > 0.0001f) {
                 // The SPH Pressure Force Equation
                 // F = -m * (Pi/rho_i^2 + Pj/rho_j^2) * Gradient(W)
-                float pressureTerm = (data.particles.get(i).press/ (data.particles.get(i).density * data.particles.get(i).density)) + 
-                                     (data.particles.get(j).press / (data.particles.get(j).density * data.particles.get(j).density));
+                float pressureTerm = (mySystem.particles.get(i).press/ (mySystem.particles.get(i).density * mySystem.particles.get(i).density)) + 
+                                     (mySystem.particles.get(j).press / (mySystem.particles.get(j).density * mySystem.particles.get(j).density));
                 
                 float gradW = kernels.spikyGradient(dist);
                 
@@ -222,30 +237,27 @@ class physics_eng {
           
                 
                 // Inside PASS 2 of calculateDensityAndPressure()
-//float dx = data.particles.get(i).pos.x - data.particles.get(j).pos.x;
-//float dy = data.particles.get(i).pos.y - data.particles.get(j).pos.y;
-//float dz = data.particles.get(i).pos.z - data.particles.get(j).pos.z;
 
 // Calculate relative velocity
-float dvx = data.particles.get(i).vel.x - data.particles.get(j).vel.x;
-float dvy = data.particles.get(i).vel.y - data.particles.get(j).vel.y;
-float dvz = data.particles.get(i).vel.z - data.particles.get(j).vel.z;
+float dvx = mySystem.particles.get(i).vel.x - mySystem.particles.get(j).vel.x;
+float dvy = mySystem.particles.get(i).vel.y - mySystem.particles.get(j).vel.y;
+float dvz = mySystem.particles.get(i).vel.z - mySystem.particles.get(j).vel.z;
 
 // Dot product of relative velocity and relative position
 float dotProduct = (dx * dvx) + (dy * dvy) + (dz * dvz);
 
 float viscosityForce = 0.0f;
-float alphaVisc = 25.0f; // Tuning variable: How thick/syrupy is the shockwave?
+
 
 // ONLY apply viscosity if particles are moving TOWARDS each other (dot product < 0)
 if (dotProduct < 0.0f) {
     // Standard Monaghan artificial viscosity formulation (simplified)
     float mu = (smoothingRadius * dotProduct) / (distSq + 0.01f); // 0.01 prevents div by zero
-    viscosityForce = -alphaVisc * mu / (data.particles.get(i).density + data.particles.get(j).density);
+    viscosityForce = -alphaVisc * mu / (mySystem.particles.get(i).density + mySystem.particles.get(j).density);
 }
 
 // Add the viscosity term to the pressure term!
-float totalForceMag = data.particles.get(j).mass * (pressureTerm + viscosityForce) * gradW;
+float totalForceMag = mySystem.particles.get(j).mass * (pressureTerm + viscosityForce) * gradW;
 
 forceX += dirX * totalForceMag;
 forceY += dirY * totalForceMag;
@@ -255,30 +267,9 @@ forceZ += dirZ * totalForceMag;
         
         // Convert Force to Acceleration (F = ma => a = F/m). 
         // We divide by density because this is a fluid force.
-        ax.set(i,ax.get(i) + forceX/data.particles.get(i).density); 
-        ay.set(i,ay.get(i) + forceY/data.particles.get(i).density);
-        az.set(i,az.get(i) + forceZ/data.particles.get(i).density);
+        ax.set(i,ax.get(i) + forceX/mySystem.particles.get(i).density); 
+        ay.set(i,ay.get(i) + forceY/mySystem.particles.get(i).density);
+        az.set(i,az.get(i) + forceZ/mySystem.particles.get(i).density);
     }
 }
-
-//private void calculateForces() {
-//    for (int i = 0; i < data.numParts; i++) {
-        
-//        // Use the grid searcher to find neighbors and calculate SPH Density
-//        gridSearcher.forEachNearbyPoint(
-//            data.particles.get(i).pos.x, data.particles.get(i).pos.y, data.particles.get(i).pos.z, 
-//            smoothingRadius, 
-//            data, 
-//            new NeighborCallback() {
-//                public void onNeighborFound(int neighborIndex) {
-//                    // DO SPH MATH HERE!
-//                    // This code runs for every neighbor found.
-//                    // e.g., density[i] += calculateKernelMath(distSq);
-//                }
-//            }
-//        );
-        
-//        // ... apply gravity, etc.
-//    }
-//}
     }

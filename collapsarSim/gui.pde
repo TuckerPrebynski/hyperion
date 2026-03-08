@@ -1,11 +1,9 @@
 class GUI {
-    SimCamera camRef;
-    System sysRef; // <-- NEW: Reference to the particle system
+   
+   
 
     // Constructor now pipes in BOTH the camera and the system data
-    GUI(SimCamera cameraToTrack, System systemToTrack) {
-        camRef = cameraToTrack;
-        sysRef = systemToTrack;
+    GUI() {
     }
 
     void display() {
@@ -13,11 +11,13 @@ class GUI {
         float totalVel = 0;
         int activeParticles = 0;
         
-        for (Particle p : sysRef.particles) {
-            if (p.alive) {
+        for (Particle p : mySystem.particles) {
+          if(p != null){  
+          if (p.alive) {
                 totalVel += p.vel.mag(); // .mag() gets the absolute speed regardless of direction
                 activeParticles++;
             }
+          }
         }
         
         float avgVelRaw = 0;
@@ -50,9 +50,9 @@ class GUI {
         text("--- ENG READOUTS ---", 20, 20);
         
         fill(255);
-        text("Cam X: " + nf(camRef.eyeX, 0, 2), 20, 50);
-        text("Cam Y: " + nf(camRef.eyeY, 0, 2), 20, 80);
-        text("Cam Z: " + nf(camRef.eyeZ, 0, 2), 20, 110);
+        text("Cam X: " + nf(myCam.eyeX, 0, 2), 20, 50);
+        text("Cam Y: " + nf(myCam.eyeY, 0, 2), 20, 80);
+        text("Cam Z: " + nf(myCam.eyeZ, 0, 2), 20, 110);
         
         fill(0, 255, 100); 
         text("--- TELEMETRY ---", 20, 140);

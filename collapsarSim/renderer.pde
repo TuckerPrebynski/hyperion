@@ -13,12 +13,12 @@ class oldRender {
         //color changing
         stroke (255);
 
-        for (int i = 0; i < sysRef.particles.size(); i++) {
-            Particle p = sysRef.particles.get(i);
+        for (int i = 0; i < renderCount; i++) {
+            RenderParticle p = renderBuffer[i];
 
             strokeWeight((p.mass)*0.02);
             if (p.alive) {
-                point(p.pos.x, p.pos.y, p.pos.z);
+                point(p.x, p.y, p.z);
             }
         }
     }
