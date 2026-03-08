@@ -35,7 +35,9 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 **5,000 particles**
 
-![5K](media/img1.png)
+<p align="center">
+  <img src="media/img1.png" width="600">
+</p>
 
 **Particles formed into a spherical object**
 
