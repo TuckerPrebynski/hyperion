@@ -25,7 +25,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
   <img src="media/lifecycle.png" width="600">
 </p>
 
-## 👥 Meet the Team
+## Meet the Team
 * **Channa J**: Organization, Logo/Art, Documentation, and Research.
 * **Dan O**: Camerawork and Development
 * **Lila P**: Physics and Development
