@@ -19,7 +19,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 * **Dan O**: Camerawork and Development
 * **Lila P**: Physics and Development
 * **Sage E**: Graphics and Shaders Development
-![Logo](media/logo.png)
+
 
 # hyperion
 # hyperion
