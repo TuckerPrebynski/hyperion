@@ -1,4 +1,4 @@
-# hyperion
+# Hyperion
 
 "Gravity Is The Harshest Critic"
 
@@ -14,10 +14,11 @@ A Collapsar occurs when a massive star runs out of fuel. In this simulation, we 
 Because the star is naturally spinning, the infalling material forms a hot, spinning accretion disk rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)** (powerful jets of energy) and a **hypernova** explosion.
 
 ## 👥 Meet the Team
-* **Channa J.**: Organization, Documentation, and Research.
-* **Dan O.**: Camerawork and Development
-* **Lila P.**: Physics and Development
-* **Sage E.**: Graphics and Shaders Development
+* **Channa J**: Organization, Logo/Art, Documentation, and Research.
+* **Dan O**: Camerawork and Development
+* **Lila P**: Physics and Development
+* **Sage E**: Graphics and Shaders Development
+![Logo](media/logo.png)
 
 # hyperion
 # hyperion
