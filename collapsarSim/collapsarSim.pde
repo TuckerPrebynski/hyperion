@@ -37,7 +37,7 @@ void resetSimulation() {
   mySystem = new System(new PVector(0, 0, 0));
 
   //mySystem.initParticles(6000, 200);
-  mySystem.addStar(10000, 200, new PVector(0, 0, 0));
+  mySystem.addStar(12000, 200, new PVector(0, 0, 0));
   //mySystem.addStar(6000,50,new PVector(-300,300,0));
 
 
