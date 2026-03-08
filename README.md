@@ -10,7 +10,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 ## Table of Contents
 
 - [Overview](#overview)
-- [👥 Meet the Team](#👥-meet-the-team)
+- [👥 Meet the Team](#meet-the-team)
 - [⚙️ Framework and Implementation](#framework-and-implementation)
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
@@ -34,6 +34,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 ## 📷 Framework and Implementation
 
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
 ## 🤩 The Visual Process
 
@@ -84,6 +85,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 ## Links and References
 
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
 
 
