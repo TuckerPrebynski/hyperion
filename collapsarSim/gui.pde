@@ -32,9 +32,9 @@ class GUI {
         
         fill(255);
         // We use nf() to format the floats to 2 decimal places so the text doesn't jitter
-        text("Cam X: " + nf(camRef.x, 0, 2), 20, 50);
-        text("Cam Y: " + nf(camRef.y, 0, 2), 20, 80);
-        text("Cam Z: " + nf(camRef.z, 0, 2), 20, 110);
+        text("Cam X: " + nf(camRef.eyeX, 0, 2), 20, 50);
+        text("Cam Y: " + nf(camRef.eyeY, 0, 2), 20, 80);
+        text("Cam Z: " + nf(camRef.eyeZ, 0, 2), 20, 110);
         // --------------------------
 
         // 4. Turn depth testing back on for the next 3D frame

@@ -1,6 +1,7 @@
 System mySystem;
-Render myRenderer;
+oldRender myRenderer;
 physics_eng myPhys;
+GUI myGUI;
 SimCamera myCam;
 
 
@@ -10,11 +11,13 @@ void setup () {
 
     mySystem.initParticles(5000, 200);
 
-    myRenderer = new Render (mySystem);
+    myRenderer = new oldRender (mySystem);
     
     myPhys = new physics_eng(mySystem);
 
     myCam = new SimCamera();
+
+    myGUI = new GUI(myCam);
 }
 
 float x = 1;
@@ -34,18 +37,9 @@ void draw () {
   noFill();
   box(250);
 
-  //randomizer for point cloud, delete at some point
-  x+=(random(-10,10));
-  y+=(random(-10,10));
-  z+=(random(-10,10));
-  //random point, can be deleted whenever
-  strokeWeight(10);
-  stroke(250,20,10);
-  point(mouseX,mouseY,50);
-  //random point 2
-  point(x,y,z);
-
   //mandatory update stuff
   myRenderer.display(x, y, z);
   myPhys.update();
+
+  myGUI.display();
 }
