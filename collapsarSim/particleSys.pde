@@ -11,6 +11,13 @@ class System{
         particles = new ArrayList<Particle>();
     }
 
+    System(System other){
+        this.numParts = other.numParts;
+        this.maxParts = other.maxParts;
+        this.origin = other.origin;
+        this.particles = new ArrayList<Particle>(other.particles);
+    }
+
     void initParticles(int numParts, float rad){
         maxParts = this.numParts = numParts;
         for(int i = 0; i < numParts; i++){

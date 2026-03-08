@@ -8,7 +8,7 @@ class physics_eng {
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
     
-    BarnesHutTree gravityTree = new BarnesHutTree(data.maxParts);
+    //BarnesHutTree gravityTree = new BarnesHutTree(data.maxParts);
     // The SPH 'h' value (how far particles look for neighbors)
     float searchRadius = 20.0f; 
     
@@ -32,9 +32,11 @@ class physics_eng {
     PointHashGridSearcher3 gridSearcher = new PointHashGridSearcher3(64, 64, 64, smoothingRadius);
     
     physics_eng(System sharedData) {
-        this.data = sharedData;
+        this.data = new System(sharedData);
         int max = data.maxParts;
         
+        kernels = new SPHKernels(smoothingRadius);
+
         // Initialize the cache array
         neighborLists = new IntList[max];
         for (int i = 0; i < max; i++) {
@@ -51,7 +53,7 @@ class physics_eng {
     public void update() {
         resetAccelerations();
         
-        gravityTree.build(data, simBounds);
+        //gravityTree.build(data, simBounds);
         
         // Step 1: Build the searcher grid with current particle positions
         gridSearcher.build(data);
@@ -62,13 +64,14 @@ class physics_eng {
         // Step 3: Now we can calculate SPH forces using the cached lists!
         calculateDensityAndPressure();
        
-        for (int i = 0; i < data.numParts; i++) {
-            gravityTree.applyGravity(i, data, ax, ay, az);
-        }
+        // for (int i = 0; i < data.numParts; i++) {
+        //     gravityTree.applyGravity(i, data, ax, ay, az);
+        // }
         
         integrate();
     }
     private void resetAccelerations() {
+        println(data.numParts);
     for (int i = 0; i < data.numParts; i++) {
       ax[i] = 0.0f;
       ay[i] = 0.0f;
