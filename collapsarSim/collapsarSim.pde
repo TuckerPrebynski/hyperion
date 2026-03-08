@@ -51,5 +51,5 @@ void draw () {
   point(x,y,z);
 
   myRenderer.display(x, y, z);
-  myhys.update();
+  myPhys.update();
 }
