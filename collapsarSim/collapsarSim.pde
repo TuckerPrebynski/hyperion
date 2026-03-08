@@ -5,6 +5,7 @@ GUI myGUI;
 SimCamera myCam;
 
 PFont fontTitle, fontUI, fontTelemetry, fontStatus;
+PImage logoImg;
 
 PShape starField;
 
@@ -71,6 +72,9 @@ void setup() {
   fontTelemetry = loadFont("Hack-Regular.vlw");
   fontStatus = loadFont("FreeMonoBold.vlw");
 
+  // Load Logo
+  logoImg = loadImage("media/logo.png");
+
   resetSimulation();
 
   // background stars
@@ -78,6 +82,21 @@ void setup() {
   starField.beginShape(POINTS);
   starField.stroke(255); // White stars
   starField.strokeWeight(3); // Size of stars
+
+  int[] starCols = {
+    //blues
+    color(173, 216, 230),
+    color(135, 206, 235),
+    color(65, 105, 225),
+    //greens
+    color(144, 238, 144),
+    color(34, 139, 34),
+    color(0, 100, 0),
+    //whites (bright to dim)
+    color(240, 250, 255),
+    color(190, 210, 200),
+    color(150, 165, 160)
+  };
 
   // Generate 5,000 static stars in a sphere or box
   for (int i = 0; i < 8000; i++) {
@@ -100,7 +119,7 @@ void setup() {
       }
     }
 
-    starField.stroke(random(150, 255));
+    starField.stroke(starCols[int(random(starCols.length))]);
     starField.vertex(x, y, z);
   }
   starField.endShape();
@@ -232,4 +251,3 @@ void keyPressed() {
   if (key == 's') dt = 0.003f; // Slow motion
   if (key == 'f') dt = 0.016f; // Normal speed
 }
-
