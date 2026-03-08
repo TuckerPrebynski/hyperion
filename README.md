@@ -42,37 +42,37 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 </p>
 
 <p align="center">
-**Particles forming into a spherical object**
+<strong>Particles forming into a spherical object<strong>
 </p>
 
 ![ThrowEmInACircle](media/gif1.gif)
 
 <p align="center">
-**First peek of the camera work**
+<strong>First peek of the camera work</strong>
 </p>
 
 ![CameraworkDraft](media/gif2.gif)
 
 <p align="center">
-**Shape structure** 
+<strong>Shape structure</strong> 
 </p>
 
 ![CircleInaBox](media/gif3.gif)
 
 <p align="center">
-**Implosion draft**
+<strong>Implosion draft</strong>
 </p>
 
 ![FirstKaboom](media/gif4.gif)
 
 <p align="center">
-**Implosion into Black hole draft**
+<strong>Implosion into Black hole draft</strong>
 </p>
 
 ![KaboomPerfect](media/gif5.gif)
 
 <p align="center">
-**Black hole draft**
+<strong>Black hole draft</strong>
 </p>
 
 ![FirstBlackHole](media/gif6.gif)
