@@ -28,8 +28,8 @@ void resetSimulation() {
     mySystem = new System(new PVector(0, 0, 0));
     
      //mySystem.initParticles(6000, 200);
-    mySystem.addStar(6000,200,new PVector(100,300,0));
-    mySystem.addStar(6000,50,new PVector(-300,300,0));
+    mySystem.addStar(5000,200,new PVector(0,0,0));
+    //mySystem.addStar(6000,50,new PVector(-300,300,0));
    
 
     // --- 2. INITIALIZE THE RENDER BUFFER ---
@@ -53,7 +53,7 @@ void resetSimulation() {
 }
 
 void setup() {
-    size(800, 600, P3D); // Note: this is a massive resolution!
+    size(2500, 1100, P3D); // Note: this is a massive resolution!
     resetSimulation();
 }
 
@@ -68,7 +68,7 @@ void draw() {
     // Box display for testing
     pushMatrix();
     strokeWeight(2);
-    translate(width/2, height/2, -100);
+    translate(0, 0, 0);
     noFill();
     stroke(250, 30, 30);
     box(350);

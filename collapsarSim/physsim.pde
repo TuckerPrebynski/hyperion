@@ -1,12 +1,12 @@
 float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
-    float collapseDensityThreshold = 25.0f; // TUNE THIS: How dense before it collapses?
+    float collapseDensityThreshold = 22.0f; // TUNE THIS: How dense before it collapses?
     
     
     //sph params
-    float smoothingRadius = 20.0f; // The 'h' in SPH math
-    float restDensity = 5.0f; // Tuning variable: How densely packed should the star be?
-    float gasConstant = 50.0f; // Tuning variable: How stiff/bouncy is the plasma?
+    float smoothingRadius = 14.0f; // The 'h' in SPH math
+    float restDensity = 8.0f; // Tuning variable: How densely packed should the star be?
+    float gasConstant = 35.0f; // Tuning variable: How stiff/bouncy is the plasma?
     
     float friction = 0.995f;
     
@@ -21,9 +21,9 @@ float dt = 0.016f;
     
 
 class physics_eng {
-    FloatList ax = new FloatList(); 
-    FloatList ay = new FloatList(); 
-    FloatList az = new FloatList();
+    float[] ax; 
+    float[] ay; 
+    float[] az;
     
     public BlackHole bh = null; 
 
@@ -51,14 +51,21 @@ class physics_eng {
     PointHashGridSearcher3 gridSearcher = new PointHashGridSearcher3(64, 64, 64, smoothingRadius);
     
     physics_eng() {
-        int max = mySystem.maxParts; 
+        int max = mySystem.maxParts;
         gravityTree = new BarnesHutTree(max);
         kernels = new SPHKernels(smoothingRadius);
+
+        ax = new float[max];
+        ay = new float[max];
+        az = new float[max];
 
         // Initialize the cache array
         neighborLists = new IntList[max];
         for (int i = 0; i < max; i++) {
             neighborLists[i] = new IntList(); 
+            ax[i] = 0.0f;
+            ay[i] = 0.0f;
+            az[i] = 0.0f;
         }
         
         // The textbook recommends setting grid spacing to 2.0 * searchRadius
@@ -72,6 +79,8 @@ class physics_eng {
         resetAccelerations();
         
         gravityTree.build(mySystem, simBounds);
+
+        //step 0 - zero acceleration
         
         // Step 1: Build the searcher grid with current particle positions
         gridSearcher.build(mySystem);
@@ -119,9 +128,9 @@ class physics_eng {
     private void resetAccelerations() {
 
         for (int i = 0; i < mySystem.numParts; i++){
-          ax.set(i,0.0);
-          ay.set(i,0.0);
-          az.set(i,0.0);
+          ax[i] += 0.0;
+          ay[i] += 0.0;
+          az[i] += 0.0;
         }
   }
     private void integrate() {
@@ -129,18 +138,20 @@ class physics_eng {
       Particle p = mySystem.particles.get(i);
       if (!p.alive) {
                 mySystem.particles.remove(i);
-                ax.remove(i);
-                ay.remove(i);
-                az.remove(i);
+                //ax.remove(i);
+                //ay.remove(i);
+                //az.remove(i);
                 mySystem.numParts--;
                 continue;
             }
             
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
       
-      p.vel.x += ax.get(i) * dt;
-      p.vel.y += ay.get(i) * dt;
-      p.vel.z += az.get(i) * dt;
+      p.vel.x += ax[i] * dt;
+      p.vel.y += ay[i] * dt;
+      p.vel.z += az[i] * dt;
+
+      //p.vel.limit(150.0f);
       
       p.vel.mult(friction);
       // Then Update Position using the NEW velocity
@@ -267,9 +278,9 @@ forceZ += dirZ * totalForceMag;
         
         // Convert Force to Acceleration (F = ma => a = F/m). 
         // We divide by density because this is a fluid force.
-        ax.set(i,ax.get(i) + forceX/mySystem.particles.get(i).density); 
-        ay.set(i,ay.get(i) + forceY/mySystem.particles.get(i).density);
-        az.set(i,az.get(i) + forceZ/mySystem.particles.get(i).density);
+        ax[i] = (ax[i] + forceX/mySystem.particles.get(i).density); 
+        ay[i] = (ay[i] + forceY/mySystem.particles.get(i).density);
+        az[i] = (az[i] + forceZ/mySystem.particles.get(i).density);
     }
 }
     }

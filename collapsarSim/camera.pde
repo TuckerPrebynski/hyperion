@@ -21,8 +21,8 @@ class SimCamera {
     theta = 0;
     phi = 0;
 
-    targetX = width/2;
-    targetY = height/2;
+    targetX = 0;
+    targetY = 0;
     targetZ = 0;
     
     //num = 0;

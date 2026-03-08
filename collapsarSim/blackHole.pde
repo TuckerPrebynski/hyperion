@@ -102,7 +102,7 @@ class BlackHole {
     }
     
     // Apply massive gravity to all remaining SPH particles
-    void applyGravity(System data, FloatList ax, FloatList ay, FloatList az, float gravityG) {
+    void applyGravity(System data, float[] ax, float[] ay, float[] az, float gravityG) {
         spinAxis = new PVector(0, 1, 0); // The axis the black hole spins around (Up)    
         for (int i = 0; i < data.particles.size(); i++) {
             Particle p = data.particles.get(i);
@@ -136,9 +136,9 @@ class BlackHole {
             float totalAz = (dir.z * gravMag) + (tangent.z * spinMag);
             
             // Update the acceleration arrays exactly ONCE per particle
-            ax.set(i, ax.get(i) + totalAx);
-            ay.set(i, ay.get(i) + totalAy);
-            az.set(i, az.get(i) + totalAz);
+            ax[i] = ax[i] + totalAx;
+            ay[i] = ay[i] + totalAy;
+            az[i] = az[i] + totalAz;
         }
     }
 }

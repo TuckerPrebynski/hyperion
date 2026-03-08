@@ -139,12 +139,12 @@ class BarnesHutTree {
         return oct;
     }
     // --- STEP 2: CALCULATE FORCES ---
-    void applyGravity(int particleIdx, System data, FloatList ax, FloatList ay, FloatList az) {
+    void applyGravity(int particleIdx, System data, float[] ax, float[] ay, float[] az) {
         // Start traversing from the root node (Index 0)
         traverseAndApply(0, particleIdx, data, ax, ay, az);
     }
 
-    private void traverseAndApply(int nodeIdx, int pIdx, System data, FloatList ax, FloatList ay, FloatList az) {
+    private void traverseAndApply(int nodeIdx, int pIdx, System data, float[] ax, float[] ay, float[] az) {
         if (nodeIdx == -1) return;
         BarnesHutNode node = pool[nodeIdx];
         
@@ -166,9 +166,9 @@ class BarnesHutTree {
             // We multiply by dx/dist to get the directional vector (which makes the denominator dist^3)
             float forceMag = gravityG * node.mass / (distSq * dist); 
             
-            ax.set(pIdx,ax.get(pIdx) + dx * forceMag);
-            ay.set(pIdx,ay.get(pIdx) + dy * forceMag);
-            az.set(pIdx,az.get(pIdx) + dz * forceMag);
+            ax[pIdx] = ax[pIdx] + dx * forceMag;
+            ay[pIdx] = ay[pIdx] + dy * forceMag;
+            az[pIdx] = az[pIdx] + dz * forceMag;
             
         } else {
             // It's too close! We must open the box and check the children
