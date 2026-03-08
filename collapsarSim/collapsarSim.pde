@@ -7,6 +7,7 @@ SimCamera myCam;
 // --- 1. MULTITHREADING VARIABLES ---
 class RenderParticle {
     float x, y, z, temp;
+    PVector vel;
     boolean alive;
     float mass;
 }
@@ -133,6 +134,7 @@ void runPhysics() {
             renderBuffer[i].y = p.pos.y;
             renderBuffer[i].z = p.pos.z;
             renderBuffer[i].temp = p.temp;
+            renderBuffer[i].vel = p.vel;
             renderBuffer[i].alive = p.alive;
             renderBuffer[i].mass = p.mass;
         }
