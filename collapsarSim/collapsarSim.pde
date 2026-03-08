@@ -30,9 +30,9 @@ void draw () {
   stroke(255);
   point(x,y,z);
   point(mouseX,mouseY,50);
-  x+=(random(-5,5));
-  y+=(random(-5,5));
-  z+=(random(-5,5));
+  x+=(random(-10,10));
+  y+=(random(-10,10));
+  z+=(random(-10,10));
 
   myRenderer.display(x, y, z);
 }
