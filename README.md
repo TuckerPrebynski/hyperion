@@ -36,6 +36,6 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 **{Video} Particles formed into a spherical object**
 
-[![Spherical Particles](media/img2.png)](media/vid1.webm)
+
 
 # hyperion
