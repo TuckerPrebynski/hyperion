@@ -35,7 +35,8 @@ class Render {
     void display(){
         for(int i = 0; i < sysRef.particles.size(); i++){
           Particle p = sysRef.particles.get(i);
-
+          p.update();
+          
           if(p.alive){
             partCloud.setVertex(i, p.pos.x, p.pos.y, p.pos.z);
             partCloud.setStroke(i, color(p.temp, 0, 0, 180));

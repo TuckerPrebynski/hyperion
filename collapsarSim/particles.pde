@@ -32,8 +32,9 @@ class Particle{
     }
 
     void update(){
+        int maxVel = 100; //TODO: calc max system velicity in sim
         if(alive){
-            temp = (int)constrain(map((int)vel.magSq(), 0, 10, 0, 255), 0, 255);
+            temp = (int)constrain(map((int)vel.magSq(), 0, maxVel, 0, 255), 0, 255);
         }
     }
 
