@@ -10,7 +10,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 ## Table of Contents
 
 - [Overview](#overview)
-- [👥 Meet the Team](#meet-the-team)
+- [👥 Meet the Team](#👥meet-the-team)
 - [⚙️ Framework and Implementation](#framework-and-implementation)
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
@@ -25,7 +25,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
   <img src="media/lifecycle.png" width="600">
 </p>
 
-## Meet the Team
+## 👥 Meet the Team
 * **Channa J**: Organization, Logo/Art, Documentation, and Research.
 * **Dan O**: Camerawork and Development
 * **Lila P**: Physics and Development
