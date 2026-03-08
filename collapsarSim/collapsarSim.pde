@@ -15,6 +15,8 @@ float x = 1;
 float y = 1;
 float z = 1;
 
+int num=0;
+
 float cameraX = 0;
 float cameraY = 0;
 float cameraZ = (height/2) / tan(PI/6);
@@ -29,6 +31,11 @@ void draw () {
   cameraX+=(5);
   cameraY+=(5);
   cameraZ+=(5);
+  num++;
+  if (num == 10) {
+    println("x: " + cameraX + " y: " + cameraY + " z: " + cameraZ);
+    num = 0;
+  }
   translate(width/2, height/2, -100);
   noFill();
   box(250);
