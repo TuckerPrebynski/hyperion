@@ -1,5 +1,5 @@
 System mySystem;
-oldRender myRenderer;
+Render myRenderer;
 physics_eng myPhys;
 GUI myGUI;
 SimCamera myCam;
@@ -40,7 +40,7 @@ void resetSimulation() {
     }
 
     // 3. Re-initialize the renderer
-    myRenderer = new oldRender(mySystem); 
+    myRenderer = new Render(mySystem); 
     myRenderer.init();
 
     // 4. Create a fresh physics engine
@@ -98,8 +98,15 @@ void draw() {
                 pushMatrix();
                 rotateX(time + (PI / numRings) * i);
                 rotateY(time * 0.7f + (PI / numRings) * i);
-                stroke(70, 20, 70, 150);
-                ellipse(0, 0, renderBhRIn * 15, renderBhRIn * 15);
+
+                //outer boundary
+                stroke (70,20,70,150);
+                ellipse(0,0,myPhys.bh.r_acc*2.5,myPhys.bh.r_acc*2.5);
+
+                //draw inner photon ring
+                stroke(0,12,186,120);
+                ellipse(0,0,myPhys.bh.r_acc*3.5,myPhys.bh.r_acc*3.5);
+                
                 popMatrix();
             }
             popMatrix();
