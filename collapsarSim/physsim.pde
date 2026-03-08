@@ -8,7 +8,7 @@ class physics_eng {
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
     
-    //BarnesHutTree gravityTree = new BarnesHutTree(data.maxParts);
+    BarnesHutTree gravityTree;
     // The SPH 'h' value (how far particles look for neighbors)
     float searchRadius = 20.0f; 
     
@@ -33,8 +33,8 @@ class physics_eng {
     
     physics_eng(System sharedData) {
         this.data = new System(sharedData);
-        int max = data.maxParts; //<>//
-        
+        int max = data.maxParts; //<>// //<>//
+        gravityTree = new BarnesHutTree(max);
         kernels = new SPHKernels(smoothingRadius);
 
         // Initialize the cache array
@@ -53,7 +53,7 @@ class physics_eng {
     public void update() {
         resetAccelerations();
         
-        //gravityTree.build(data, simBounds);
+        gravityTree.build(data, simBounds);
         
         // Step 1: Build the searcher grid with current particle positions
         gridSearcher.build(data);
@@ -64,10 +64,13 @@ class physics_eng {
         // Step 3: Now we can calculate SPH forces using the cached lists!
         calculateDensityAndPressure();
        
-        // for (int i = 0; i < data.numParts; i++) {
-        //     gravityTree.applyGravity(i, data, ax, ay, az);
-        // }
-        
+         for (int i = 0; i < data.numParts; i++) {
+             gravityTree.applyGravity(i, data, ax, ay, az);
+         }
+        //println("first point pos. x:", data.particles.get(0).pos.x, ", y:", data.particles.get(0).pos.y, ", z:", data.particles.get(0).pos.z);
+        //println("first point vel. x:", data.particles.get(0).vel.x, ", y:", data.particles.get(0).vel.y, ", z:", data.particles.get(0).vel.z);
+        //println("density: ",data.particles.get(0).density, "presssure:",data.particles.get(0).press);
+        //println("neighbors: ", neighborLists[0]);
         integrate();
     }
     private void resetAccelerations() {
@@ -87,12 +90,13 @@ class physics_eng {
       
       // Then Update Position using the NEW velocity
       data.particles.get(i).pos.x += data.particles.get(i).vel.x * dt;
-      data.particles.get(i).pos.y += data.particles.get(i).vel.x * dt;
-      data.particles.get(i).pos.z += data.particles.get(i).vel.x * dt;
+      data.particles.get(i).pos.y += data.particles.get(i).vel.y * dt;
+      data.particles.get(i).pos.z += data.particles.get(i).vel.z * dt;
       
       // Optional: Update temperature based on velocity/pressure 
       // so the frontend team can make fast particles glow brighter!
       // data.temperature[i] = ... 
+      
     }
   }
     // Translated from the textbook's ParticleSystemData3::buildNeighborLists
