@@ -128,13 +128,13 @@ class physics_eng {
     private void resetAccelerations() {
 
         for (int i = 0; i < mySystem.numParts; i++){
-          ax[i] += 0.0;
-          ay[i] += 0.0;
-          az[i] += 0.0;
+          ax[i] = 0.0;
+          ay[i] = 0.0;
+          az[i] = 0.0;
         }
   }
     private void integrate() {
-    for (int i = 0; i < mySystem.numParts; i++) {
+    for (int i = mySystem.numParts - 1; i >= 0; i--) {
       Particle p = mySystem.particles.get(i);
       if (!p.alive) {
                 mySystem.particles.remove(i);
@@ -143,7 +143,7 @@ class physics_eng {
                 //az.remove(i);
                 mySystem.numParts--;
                 continue;
-            }
+        }
             
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
       
@@ -199,7 +199,7 @@ class physics_eng {
             float dz = mySystem.particles.get(i).pos.z - mySystem.particles.get(j).pos.z;
             float distSq = (dx*dx) + (dy*dy) + (dz*dz);
             
-            density += mySystem.particles.get(i).mass * kernels.poly6(distSq);
+            density += mySystem.particles.get(j).mass * kernels.poly6(distSq);
         }
         
         mySystem.particles.get(i).density = density;
