@@ -36,8 +36,9 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 * [**Lila P**](https://github.com/TuckerPrebynski): Physics and Development
 * [**Sage E**](https://github.com/b00kworm4lyf3): Graphics and Shaders Development
 
-<a id="<a id="running-the-simulation"></a>"
+<a id="running-the-simulation"></a>
 ## 🎮 Running the Simulation
+
 ```
 Space - Pause/unpause toggle
 R - Rotates 360 (navigation limited to ⬆️ and ⬇️ arrows)
