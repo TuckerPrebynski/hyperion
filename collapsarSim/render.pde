@@ -34,7 +34,7 @@ class Render {
         for(int i = 0; i < sysRef.particles.size(); i++){
           Particle p = sysRef.particles.get(i);
           if(p.alive){
-            float t = p.temp/255;
+            float t = p.temp/255.0;
             stroke(t*255, 0, 0, 180);
             point(p.pos.x, p.pos.y, p.pos.z);
           }
