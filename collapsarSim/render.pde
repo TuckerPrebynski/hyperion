@@ -43,14 +43,21 @@ class Render {
     }
 
     PImage buildRamp(){
-      int[] rampData = {
-        color(220, 20, 60), //crimson, least intense
-        color(255, 165, 0),
-        color(255, 215, 0),
-        color(173, 216, 230),
-        color(65,  105, 225),
+      // int[] rampData = { //old, confetti
+      //   color(220, 20, 60), //crimson, least intense
+      //   color(255, 165, 0),
+      //   color(255, 215, 0),
+      //   color(173, 216, 230),
+      //   color(65,  105, 225),
+      //   color(0, 165, 255),
+      //   color(255, 255, 255) //bright white, most intense
+      // };
+
+      int[] rampData = { //blue ramp
         color(0, 165, 255),
-        color(255, 255, 255) //bright white, most intense
+        color(65,  105, 225),
+        color(173, 216, 230),
+        color(200, 200, 255) //bright white, most intense
       };
 
       PImage rampTex = createImage(rampData.length, 1, ARGB);
