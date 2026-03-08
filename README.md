@@ -36,7 +36,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 **{Video} Particles formed into a spherical object vid1**
 
-[▶ Watch 5K particle video](media/vid1.webm)
+![5K](media/gif1.gif)
 
 **{Video} First peek of the camera work vid2**
 
