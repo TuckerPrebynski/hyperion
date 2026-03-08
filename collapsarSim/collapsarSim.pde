@@ -106,7 +106,7 @@ void draw() {
                 //draw inner photon ring
                 stroke(0,12,186,120);
                 ellipse(0,0,myPhys.bh.r_acc*3.5,myPhys.bh.r_acc*3.5);
-                
+
                 popMatrix();
             }
             popMatrix();
@@ -116,13 +116,14 @@ void draw() {
         myRenderer.display(); 
     }
 
-    //myGUI.display();
+    
 
     // --- 4. TRIGGER BACKGROUND PHYSICS ---
     if (!isPaused && !isCalculating) {
         isCalculating = true;
         thread("runPhysics"); 
     }
+    myGUI.display();
 }
 
 // --- 5. THE BACKGROUND THREAD ---
@@ -157,10 +158,10 @@ void runPhysics() {
             renderBhExists = false;
         }
     }
-    
     isCalculating = false;
 }
 
+/*
 // --- CONTROLS ---
 void keyPressed() {
     if (key == ' ') isPaused = !isPaused;
@@ -168,3 +169,4 @@ void keyPressed() {
     
     // Add any other manual override keys here!
 }
+    */
