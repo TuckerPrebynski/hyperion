@@ -27,7 +27,8 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 ## 😭 Hoops & Hurdles
 
-##🤩 The Visual Process
+
+## 🤩 The Visual Process
 
 **5,000 particles**
 ![Img](img1.png)
