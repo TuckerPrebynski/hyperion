@@ -40,7 +40,7 @@ class BarnesHutTree {
     }
 
     // --- STEP 1: BUILD THE TREE ---
-    void build(ParticleData data, float boundsSize) {
+    void build(System data, float boundsSize) {
         nextAvailableNode = 0; // Reset the memory pool! Zero GC!
         
         // Initialize the root node (Node 0)
@@ -50,7 +50,7 @@ class BarnesHutTree {
         root.width = boundsSize;
         
         // Insert all active particles into the tree
-        for (int i = 0; i < data.activeCount; i++) {
+        for (int i = 0; i < data.numParts; i++) {
             insert(rootIndex, i, data);
         }
     }
@@ -66,14 +66,14 @@ class BarnesHutTree {
         return idx;
     }
 
-    private void insert(int nodeIdx, int particleIdx, ParticleData data) {
+    private void insert(int nodeIdx, int particleIdx, System data) {
         BarnesHutNode node = pool[nodeIdx];
         
         // 1. Update this node's Center of Mass
-        float pMass = data.mass[particleIdx];
-        float pX = data.x[particleIdx];
-        float pY = data.y[particleIdx];
-        float pZ = data.z[particleIdx];
+        float pMass = data.particles.get(particleIdx).mass;
+        float pX = data.particles.get(particleIdx).pos.x;
+        float pY = data.particles.get(particleIdx).pos.y;
+        float pZ = data.particles.get(particleIdx).pos.z;
         
         // Center of mass formula: (m1*x1 + m2*x2) / (m1 + m2)
         float newMass = node.mass + pMass;
@@ -102,11 +102,11 @@ class BarnesHutTree {
         subdivideAndInsert(nodeIdx, particleIdx, data);
     }
 
-    private void subdivideAndInsert(int nodeIdx, int pIdx, ParticleData data) {
+    private void subdivideAndInsert(int nodeIdx, int pIdx, System data) {
         BarnesHutNode node = pool[nodeIdx];
         
         // Find which of the 8 sub-quadrants the particle belongs in
-        int octant = getOctant(node.x, node.y, node.z, data.x[pIdx], data.y[pIdx], data.z[pIdx]);
+        int octant = getOctant(node.x, node.y, node.z, data.particles.get(pIdx).pos.x, data.particles.get(pIdx).pos.y, data.particles.get(pIdx).pos.x);
         
         // If the child doesn't exist yet, allocate it
         if (node.children[octant] == -1) {
@@ -134,5 +134,44 @@ class BarnesHutTree {
         if (py >= ny) oct |= 2;
         if (pz >= nz) oct |= 4;
         return oct;
+    }
+    // --- STEP 2: CALCULATE FORCES ---
+    void applyGravity(int particleIdx, System data, float[] ax, float[] ay, float[] az) {
+        // Start traversing from the root node (Index 0)
+        traverseAndApply(0, particleIdx, data, ax, ay, az);
+    }
+
+    private void traverseAndApply(int nodeIdx, int pIdx, System data, float[] ax, float[] ay, float[] az) {
+        if (nodeIdx == -1) return;
+        BarnesHutNode node = pool[nodeIdx];
+        
+        // Don't calculate gravity against yourself
+        if (node.isLeaf && node.particleIndex == pIdx) return;
+        
+        float dx = node.comX - data.particles.get(pIdx).pos.x;
+        float dy = node.comY - data.particles.get(pIdx).pos.y;
+        float dz = node.comZ - data.particles.get(pIdx).pos.z;
+        
+        // Softened distance squared
+        float distSq = (dx*dx) + (dy*dy) + (dz*dz) + softeningSq; 
+        float dist = sqrt(distSq);
+        
+        // If it's a leaf, OR if it's far enough away (s/d < theta), apply gravity
+        if (node.isLeaf || (node.width / dist) < theta) {
+            
+            // Newton's Law of Universal Gravitation: a = G * M / r^2
+            // We multiply by dx/dist to get the directional vector (which makes the denominator dist^3)
+            float forceMag = gravityG * node.mass / (distSq * dist); 
+            
+            ax[pIdx] += dx * forceMag;
+            ay[pIdx] += dy * forceMag;
+            az[pIdx] += dz * forceMag;
+            
+        } else {
+            // It's too close! We must open the box and check the children
+            for (int i = 0; i < 8; i++) {
+                traverseAndApply(node.children[i], pIdx, data, ax, ay, az);
+            }
+        }
     }
 }
