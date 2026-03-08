@@ -1,59 +1,161 @@
 System mySystem;
-Render myRenderer;
+oldRender myRenderer;
 physics_eng myPhys;
 GUI myGUI;
 SimCamera myCam;
 
+// --- 1. MULTITHREADING VARIABLES ---
+class RenderParticle {
+    float x, y, z, temp;
+    boolean alive;
+    float mass;
+}
 
-void setup () {
-    size(800,800,P3D);
+RenderParticle[] renderBuffer;
+int renderCount = 0;
 
-    mySystem = new System (new PVector (0,0,0));
+// Thread-safe Black Hole Data
+boolean renderBhExists = false;
+float renderBhX, renderBhY, renderBhZ, renderBhRIn;
 
-    mySystem.initParticles(5000, 200);
+// Threading locks and flags
+Object threadLock = new Object();
+boolean isCalculating = false;
+boolean isPaused = false;
 
-    myRenderer = new Render (mySystem);
+void resetSimulation() {
+    // 1. Throw away the old system and make a new one
+    mySystem = new System(new PVector(0, 0, 0));
     
-    //myRenderer = new Render (mySystem);
+     //mySystem.initParticles(6000, 200);
+    mySystem.addStar(6000,200,new PVector(100,300,0));
+    mySystem.addStar(6000,50,new PVector(-300,300,0));
+   
+
+    // --- 2. INITIALIZE THE RENDER BUFFER ---
+    renderBuffer = new RenderParticle[mySystem.maxParts];
+    for (int i = 0; i < renderBuffer.length; i++) {
+        renderBuffer[i] = new RenderParticle();
+    }
+
+    // 3. Re-initialize the renderer
+    myRenderer = new oldRender(mySystem); 
     myRenderer.init();
 
-    myPhys = new physics_eng(mySystem);
+    // 4. Create a fresh physics engine
+    myPhys = new physics_eng();
 
+    // 5. Reset camera and GUI
     myCam = new SimCamera();
+    myGUI = new GUI(); 
+    
+    isCalculating = false;
+}
 
-    myGUI = new GUI(myCam);
+void setup() {
+    size(800, 600, P3D); // Note: this is a massive resolution!
+    resetSimulation();
 }
 
 float x = 1;
 float y = 1;
 float z = 1;
 
-void draw () {
-  //sets background to black, can be changed to images.
-  //this is what "clears" the screen
-  background(0);
+void draw() {
+    background(0);
+    myCam.apply();
 
-  myCam.apply();
+    // Box display for testing
+    pushMatrix();
+    strokeWeight(2);
+    translate(width/2, height/2, -100);
+    noFill();
+    stroke(250, 30, 30);
+    box(350);
+    popMatrix();
 
-  //box display for testing, delete in prod
-  strokeWeight(2);
-  translate(width/2, height/2, -100);
-  //box(250);
+    // --- 3. THREAD-SAFE RENDERING ---
+    // We lock the thread briefly while drawing to prevent tearing/crashing
+    synchronized(threadLock) {
+        
+        // Render Black Hole from BUFFER
+        if (renderBhExists) {
+            pushMatrix();
+            translate(renderBhX, renderBhY, renderBhZ);
 
-  //randomizer for point cloud, delete at some point
-  x+=(random(-10,10));
-  y+=(random(-10,10));
-  z+=(random(-10,10));
-  //random point, can be deleted whenever
-  strokeWeight(10);
-  stroke(250,20,10);
-  point(mouseX,mouseY,50);
-  //random point 2
-  point(x,y,z);
+            // Event horizon
+            fill(0); 
+            noStroke();
+            sphere(renderBhRIn * 3.5f); 
 
-  //mandatory update stuff
-  myRenderer.display();
-  myPhys.update();
+            // Magnetic zone
+            noFill();
+            strokeWeight(2);
+            float time = millis() * 0.001f;
+            int numRings = 8; 
+            for (int i = 0; i < numRings; i++) {
+                pushMatrix();
+                rotateX(time + (PI / numRings) * i);
+                rotateY(time * 0.7f + (PI / numRings) * i);
+                stroke(70, 20, 70, 150);
+                ellipse(0, 0, renderBhRIn * 15, renderBhRIn * 15);
+                popMatrix();
+            }
+            popMatrix();
+        }
 
-  myGUI.display();
+        // RENDER PARTICLES
+        myRenderer.display(); 
+    }
+
+    //myGUI.display();
+
+    // --- 4. TRIGGER BACKGROUND PHYSICS ---
+    if (!isPaused && !isCalculating) {
+        isCalculating = true;
+        thread("runPhysics"); 
+    }
+}
+
+// --- 5. THE BACKGROUND THREAD ---
+// This runs on a separate CPU core
+void runPhysics() {
+    myPhys.update(); 
+    
+    // The math is done! Briefly lock the thread to copy data safely
+    synchronized(threadLock) {
+        renderCount = mySystem.particles.size();
+        
+        // Copy particle data
+        for (int i = 0; i < renderCount; i++) {
+            Particle p = mySystem.particles.get(i);
+            renderBuffer[i].x = p.pos.x;
+            renderBuffer[i].y = p.pos.y;
+            renderBuffer[i].z = p.pos.z;
+            renderBuffer[i].temp = p.temp;
+            renderBuffer[i].alive = p.alive;
+            renderBuffer[i].mass = p.mass;
+        }
+        
+        // Copy Black Hole data
+        if (myPhys.bh != null) {
+            renderBhExists = true;
+            renderBhX = myPhys.bh.pos.x;
+            renderBhY = myPhys.bh.pos.y;
+            renderBhZ = myPhys.bh.pos.z;
+            renderBhRIn = myPhys.bh.r_in;
+        } else {
+            renderBhExists = false;
+        }
+    }
+    
+    isCalculating = false;
+}
+
+// --- CONTROLS ---
+void keyPressed() {
+    if (key == ' ') isPaused = !isPaused;
+    if (key == 'r' || key == 'R') resetSimulation();
+    
+    // Add any other manual override keys here!
 }
