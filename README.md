@@ -65,7 +65,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ---
 
 <a id="framework-and-implementation"></a>
-## ⚙️ Framework and Implementation
+## ⚙️ Framework and Implementation ⚙️
 
 - **Particle systems** to simulate the star’s structure and motion
 - **Camera controls** for observing the collapse from multiple angles
