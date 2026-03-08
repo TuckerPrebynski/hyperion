@@ -72,7 +72,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 - **SPH** implementation of smooth partical hydrodynamics
 - **Code imeplementation of Kepler's** to clculate parameters for the Black Hole
 
-This project was developed using Processing for both visualization and implementation. We relied heavily on the official [Processing documentation](https://processing.org/reference/ArrayList.html)!
+This project was developed using Processing for both visualization and implementation. We relied heavily on the official [Processing doc](https://processing.org/reference/ArrayList.html)!
 
 ---
 
@@ -141,8 +141,11 @@ This project was developed using Processing for both visualization and implement
 ## 📚 Links
 
 [**Channa J.**](https://www.linkedin.com/in/channa-johnson-85018b16b/)
+
 [**Dan O.**]()
+
 **Lila P.**
+
 [**Sage E.**](https://www.linkedin.com/in/sage-b-ebert/)
 
 <p align="center">
