@@ -15,7 +15,9 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
 
+<a id="overview"></a>
 ## Overview
+
 A Collapsar occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole. 
 
 Because the star is naturally spinning, the infalling material forms a hot, spinning accretion disk rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)** (powerful jets of energy) and a **hypernova** explosion.
@@ -25,18 +27,22 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
   <img src="media/lifecycle.png" width="600">
 </p>
 
+<a id="meet-the-team"></a>
 ## 👥 Meet the Team
+
 * **Channa J**: Organization, Logo/Art, Documentation, and Research.
 * **Dan O**: Camerawork and Development
 * **Lila P**: Physics and Development
 * **Sage E**: Graphics and Shaders Development
 
 
-## 📷 Framework and Implementation
+<a id="framework-and-implementation"></a>
+## ⚙️ Framework and Implementation
 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
-## 🤩 The Visual Process
+<a id="the-visual-process"></a>
+## 🌌 The Visual Process
 
 <p align="center">
 <strong>5,000 particles</strong>
@@ -83,7 +89,9 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 ![FirstBlackHole](media/gif6.gif)
 
 
-## Links and References
+<a id="links-and-references"></a>
+## 📚 Links and References
+
 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
