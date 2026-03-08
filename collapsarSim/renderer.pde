@@ -12,13 +12,11 @@ class oldRender {
     void display(){
         //color changing
         stroke (255);
-        strokeWeight(4);
-
-          //blackhole stuff
 
         for (int i = 0; i < sysRef.particles.size(); i++) {
             Particle p = sysRef.particles.get(i);
 
+            strokeWeight((p.mass)*0.02);
             if (p.alive) {
                 point(p.pos.x, p.pos.y, p.pos.z);
             }
