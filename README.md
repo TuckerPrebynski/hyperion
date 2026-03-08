@@ -31,11 +31,9 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ## 🤩 The Visual Process
 
 **5,000 particles**
-![Img](img1.png)
+![5K](media/img1.png)
 
-**Particles formed into a spherical object**
-<video width="800" controls>
-  <source src="media/vid1.webm" type="video/webm">
-</video>
+**{Video} Particles formed into a spherical object**
+[![Spherical Particles](media/img2.png)](media/vid1.webm)
 
 # hyperion
