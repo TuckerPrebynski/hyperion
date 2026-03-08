@@ -3,10 +3,10 @@ class Particle{
     PVector vel;
     PVector acc;
 
-    int press;
-    int density;
-    int mass;
-    int temp; //colour value indicator
+    float press;
+    float density;
+    float mass;
+    float temp; //colour value indicator
 
     boolean alive;
 
