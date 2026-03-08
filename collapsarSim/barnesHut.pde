@@ -9,8 +9,9 @@ class BarnesHutNode {
     boolean isLeaf;               // Is this a branch or an endpoint?
     int[] children;               // Pointers to the 8 sub-octants in the memory pool
     
-    BarnesHutNode() {
-        children = new int[8];
+    BarnesHutNode( ){
+  
+      children = new int[8];
         reset();
     }
     
@@ -26,9 +27,7 @@ class BarnesHutTree {
     BarnesHutNode[] pool;
     int nextAvailableNode = 0;
     
-    float theta = 0.5f;       // Accuracy vs Speed threshold. 0.5 is standard.
-    float gravityG = 20.0f;    // Gravitational Constant (Tuned for the simulation)
-    float softeningSq = 10.0f; // Prevents infinite forces when particles overlap
+    
 
     BarnesHutTree(int maxParticles) {
         // An Octree typically needs up to 8x the number of particles in nodes

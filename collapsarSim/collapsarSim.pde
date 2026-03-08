@@ -1,33 +1,59 @@
 System mySystem;
-Render myRenderer;
+oldRender myRenderer;
 physics_eng myPhys;
 GUI myGUI;
 SimCamera myCam;
 
+// --- 1. MULTITHREADING VARIABLES ---
+class RenderParticle {
+    float x, y, z, temp;
+    boolean alive;
+    float mass;
+}
+
+RenderParticle[] renderBuffer;
+int renderCount = 0;
+
+// Thread-safe Black Hole Data
+boolean renderBhExists = false;
+float renderBhX, renderBhY, renderBhZ, renderBhRIn;
+
+// Threading locks and flags
+Object threadLock = new Object();
+boolean isCalculating = false;
+boolean isPaused = false;
+
 void resetSimulation() {
     // 1. Throw away the old system and make a new one
     mySystem = new System(new PVector(0, 0, 0));
-    mySystem.initParticles(6000, 200);
+    
+     //mySystem.initParticles(6000, 200);
+    mySystem.addStar(6000,200,new PVector(100,300,0));
+    mySystem.addStar(6000,50,new PVector(-300,300,0));
+   
 
-    // 2. Re-initialize the renderer with the new system
-    myRenderer = new oldRender(mySystem);
-    // myRenderer = new Render(mySystem); // Use this if you switched to your shader renderer!
+    // --- 2. INITIALIZE THE RENDER BUFFER ---
+    renderBuffer = new RenderParticle[mySystem.maxParts];
+    for (int i = 0; i < renderBuffer.length; i++) {
+        renderBuffer[i] = new RenderParticle();
+    }
+
+    // 3. Re-initialize the renderer
+    myRenderer = new oldRender(mySystem); 
     myRenderer.init();
 
-    // 3. Create a fresh physics engine
-    myPhys = new physics_eng(mySystem);
+    // 4. Create a fresh physics engine
+    myPhys = new physics_eng();
 
-    // 4. Reset the camera to its starting position
+    // 5. Reset camera and GUI
     myCam = new SimCamera();
-
-    // 5. Hook the GUI back up to the new camera and new system
-    myGUI = new GUI(myCam, mySystem); 
+    myGUI = new GUI(); 
+    
+    isCalculating = false;
 }
 
-
-void setup () {
-    size(3000,1900,P3D);
-
+void setup() {
+    size(800, 600, P3D); // Note: this is a massive resolution!
     resetSimulation();
 }
 
@@ -35,70 +61,101 @@ float x = 1;
 float y = 1;
 float z = 1;
 
-void draw () {
-  //sets background to black, can be changed to images.
-  //this is what "clears" the screen
-  background(0);
+void draw() {
+    background(0);
+    myCam.apply();
 
-  myCam.apply();
-
-  //box display for testing, delete in prod
-  strokeWeight(2);
-  translate(width/2, height/2, -100);
-  noFill();
-  stroke(250,30,30);
-  box(350);
-
-  //BLACK HOLE
-  if (myPhys.bh != null) {
+    // Box display for testing
     pushMatrix();
-    translate(myPhys.bh.pos.x, myPhys.bh.pos.y, myPhys.bh.pos.z);
-
-    //event horizon
-    fill(0); // Pure black
-    noStroke();
-    sphere(myPhys.bh.r_in*3.5); // Draw it at the exact point of no return!
-
-    //magnetic zone
-    noFill();
     strokeWeight(2);
-
-    float time = millis()*0.001f;
-
-    int numRings = 8; //number of rings
-    for (int i = 0; i< numRings; i++) {
-      pushMatrix();
-
-      //rotation angle math
-      rotateX(time+(PI/numRings)*i);
-      rotateY(time*0.7f + (PI / numRings) * i);
-
-      //outer boundary
-      stroke (70,20,70,150);
-      ellipse(0,0,myPhys.bh.r_acc*2.5,myPhys.bh.r_acc*2.5);
-
-      //draw inner photon ring
-      stroke(0,12,186,120);
-      ellipse(0,0,myPhys.bh.r_acc*3.5,myPhys.bh.r_acc*3.5);
-
-      popMatrix();
-    }
+    translate(width/2, height/2, -100);
+    noFill();
+    stroke(250, 30, 30);
+    box(350);
     popMatrix();
-  }
 
-  //mandatory update stuff
-  myRenderer.display();
+    // --- 3. THREAD-SAFE RENDERING ---
+    // We lock the thread briefly while drawing to prevent tearing/crashing
+    synchronized(threadLock) {
+        
+        // Render Black Hole from BUFFER
+        if (renderBhExists) {
+            pushMatrix();
+            translate(renderBhX, renderBhY, renderBhZ);
 
-  if (!myCam.simPaused) {
-    myPhys.update();
-  }
+            // Event horizon
+            fill(0); 
+            noStroke();
+            sphere(renderBhRIn * 3.5f); 
 
-  myGUI.display();
+            // Magnetic zone
+            noFill();
+            strokeWeight(2);
+            float time = millis() * 0.001f;
+            int numRings = 8; 
+            for (int i = 0; i < numRings; i++) {
+                pushMatrix();
+                rotateX(time + (PI / numRings) * i);
+                rotateY(time * 0.7f + (PI / numRings) * i);
+                stroke(70, 20, 70, 150);
+                ellipse(0, 0, renderBhRIn * 15, renderBhRIn * 15);
+                popMatrix();
+            }
+            popMatrix();
+        }
+
+        // RENDER PARTICLES
+        myRenderer.display(); 
+    }
+
+    //myGUI.display();
+
+    // --- 4. TRIGGER BACKGROUND PHYSICS ---
+    if (!isPaused && !isCalculating) {
+        isCalculating = true;
+        thread("runPhysics"); 
+    }
 }
 
-void keyPressed() {
-    // If the user presses 'N' or 'n', completely reset the simulation!
-    if (key == 'c' || key == 'C') {
-        resetSimulation();
+// --- 5. THE BACKGROUND THREAD ---
+// This runs on a separate CPU core
+void runPhysics() {
+    myPhys.update(); 
+    
+    // The math is done! Briefly lock the thread to copy data safely
+    synchronized(threadLock) {
+        renderCount = mySystem.particles.size();
+        
+        // Copy particle data
+        for (int i = 0; i < renderCount; i++) {
+            Particle p = mySystem.particles.get(i);
+            renderBuffer[i].x = p.pos.x;
+            renderBuffer[i].y = p.pos.y;
+            renderBuffer[i].z = p.pos.z;
+            renderBuffer[i].temp = p.temp;
+            renderBuffer[i].alive = p.alive;
+            renderBuffer[i].mass = p.mass;
+        }
+        
+        // Copy Black Hole data
+        if (myPhys.bh != null) {
+            renderBhExists = true;
+            renderBhX = myPhys.bh.pos.x;
+            renderBhY = myPhys.bh.pos.y;
+            renderBhZ = myPhys.bh.pos.z;
+            renderBhRIn = myPhys.bh.r_in;
+        } else {
+            renderBhExists = false;
+        }
     }
+    
+    isCalculating = false;
+}
+
+// --- CONTROLS ---
+void keyPressed() {
+    if (key == ' ') isPaused = !isPaused;
+    if (key == 'r' || key == 'R') resetSimulation();
+    
+    // Add any other manual override keys here!
 }
