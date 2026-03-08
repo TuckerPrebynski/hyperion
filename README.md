@@ -150,7 +150,7 @@ This project was developed using Processing for both visualization and implement
 
 <p align="left">
   <strong>Want a deeper dive into the project?</strong><br>
-  Check out our full Google Doc documentation
+  Check out our full Google documentation
   <a href="https://docs.google.com/document/d/1_Y3OA4gx3A6Lj1nX1JPAvsthqIQH9s7wRs-A8DgGQSU/edit?usp=sharing">here</a>.
 </p>
 
