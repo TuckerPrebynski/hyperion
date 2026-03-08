@@ -11,9 +11,9 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 
 - [Overview](#overview)
 - [Meet the Team](#meet-the-team)
-- [Framework & Implementation](#framework--implementation)
+- [Framework and Implementation](#framework-and-implementation)
 - [The Visual Process](#the-visual-process)
-- [Links & References](#links--references)
+- [Links and References](#links-and-references)
 
 ## Overview
 A Collapsar occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole. 
@@ -32,7 +32,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 * **Sage E**: Graphics and Shaders Development
 
 
-## 📷 Framework & Implementation
+## 📷 Framework and Implementation
 
 
 ## 🤩 The Visual Process
@@ -82,7 +82,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ![FirstBlackHole](media/gif6.gif)
 
 
-## Links & References
+## Links and References
 
 
 
