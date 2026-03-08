@@ -1,5 +1,5 @@
 System mySystem;
-oldRender myRenderer;
+Render myRenderer;
 physics_eng myPhys;
 GUI myGUI;
 SimCamera myCam;

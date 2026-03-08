@@ -95,10 +95,10 @@ class physics_eng {
              gravityTree.applyGravity(i, data, ax, ay, az);
          }
          
-        //println("first point pos. x:", data.particles.get(0).pos.x, ", y:", data.particles.get(0).pos.y, ", z:", data.particles.get(0).pos.z);
-        //println("first point vel. x:", data.particles.get(0).vel.x, ", y:", data.particles.get(0).vel.y, ", z:", data.particles.get(0).vel.z);
-        //println("density: ",data.particles.get(0).density, "presssure:",data.particles.get(0).press);
-        //println("neighbors: ", neighborLists[0]);
+        // println("first point pos. x:", data.particles.get(0).pos.x, ", y:", data.particles.get(0).pos.y, ", z:", data.particles.get(0).pos.z);
+        // println("first point vel. x:", data.particles.get(0).vel.x, ", y:", data.particles.get(0).vel.y, ", z:", data.particles.get(0).vel.z);
+        // println("density: ",data.particles.get(0).density, "presssure:",data.particles.get(0).press);
+        // println("neighbors: ", neighborLists[0]);
         integrate();
     }
     private void resetAccelerations() {
