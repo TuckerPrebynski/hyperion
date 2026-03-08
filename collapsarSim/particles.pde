@@ -37,4 +37,9 @@ class Particle{
             pos.add(vel);
         }
     }
+
+    String toString(){
+        return "position = " + pos + " velocity = " + vel + " acceleration = " + acc + 
+               " pressure = " + press + " density = " + density + " mass = " + mass + " temp = " + temp + " alive = " + alive;
+    }
 }
