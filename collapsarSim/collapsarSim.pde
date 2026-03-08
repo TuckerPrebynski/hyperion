@@ -13,7 +13,7 @@ void setup () {
 
     myRenderer = new Render (mySystem);
     myRenderer.init();
-    
+
     myPhys = new physics_eng(mySystem);
 
     myCam = new SimCamera();
@@ -48,6 +48,6 @@ void draw () {
   point(x,y,z);
 
   //mandatory update stuff
-  myRenderer.display(x, y, z);
+  myRenderer.display();
   myPhys.update();
 }
