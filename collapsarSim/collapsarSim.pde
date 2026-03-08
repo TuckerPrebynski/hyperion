@@ -3,7 +3,7 @@ Render myRenderer;
 
 
 void setup () {
-    size (2500,2000,P3D);
+    size (displayWidth-50,displayHeight-50,P3D);
     mySystem = new System (new PVector (0,0,0));
 
     mySystem.initParticles(5000, 200);
@@ -14,6 +14,8 @@ void setup () {
 float x = 1;
 float y = 1;
 float z = 1;
+
+int num=0;
 
 float cameraX = 0;
 float cameraY = 0;
@@ -29,6 +31,11 @@ void draw () {
   cameraX+=(5);
   cameraY+=(5);
   cameraZ+=(5);
+  num++;
+  if (num == 10) {
+    println("x: " + cameraX + " y: " + cameraY + " z: " + cameraZ);
+    num = 0;
+  }
   translate(width/2, height/2, -100);
   noFill();
   box(250);
