@@ -1,8 +1,9 @@
 // BlackHole.pde
 
 class BlackHole {
-    PVector pos;
+    public PVector pos;
     PVector vel;
+    PVector spinAxis;
     float mass;
     float r_acc; // Outer accretion radius (Event horizon + violent magnetic zone)
     float r_in;  // Inner accretion radius (Absolute point of no return)
@@ -29,10 +30,32 @@ class BlackHole {
             float dist = sqrt(distSq);
             
             // 1. Inner Radius Test: Unconditional consumption
-            if (dist < r_in) {
-                consume(p);
+            if (dist < r_in * 2.0) { // Just outside the absolute point of no return
+                
+                // 5% chance a particle gets caught in the magnetic jet instead of eaten
+                if (random(1) < 0.05) {
+                    
+                    // Shoot it out the Y-axis (Up if above equator, Down if below)
+                    float jetDirection = (p.pos.y > pos.y) ? 1.0 : -1.0;
+                    
+                    // Kill horizontal speed, apply massive vertical acceleration
+                    p.vel.x *= 0.1; 
+                    p.vel.z *= 0.1;
+                    p.vel.y = jetDirection * 500.0; // BOOM.
+                    
+                    // Make it super hot (Bright blue/white in your renderer)
+                    p.temp = 20000; 
+                    
+                } else if (dist < r_in) {
+                    consume(p); // Eat everything else that crosses the boundary
+                }
+                
                 continue;
             }
+            /*if (dist < r_in) {
+                consume(p);
+                continue;
+            }*/
             
             // 2. Outer Radius Test: Angular Momentum and Bound Checks
             if (dist < r_acc) {
@@ -80,20 +103,42 @@ class BlackHole {
     
     // Apply massive gravity to all remaining SPH particles
     void applyGravity(System data, FloatList ax, FloatList ay, FloatList az, float gravityG) {
+        spinAxis = new PVector(0, 1, 0); // The axis the black hole spins around (Up)    
         for (int i = 0; i < data.particles.size(); i++) {
             Particle p = data.particles.get(i);
             if (!p.alive) continue;
             
-            PVector dir = PVector.sub(pos, p.pos);
-            float distSq = dir.magSq() + 10.0f; // Softening parameter
-            float dist = sqrt(distSq);
+            // --- 1. SHARED MATH ---
+            PVector dir = PVector.sub(pos, p.pos); // Vector pointing to BH
+            float distSq = dir.magSq() + 10.0f;    // Softened distance squared
+            float dist = sqrt(distSq);             // Actual distance
             
-            // a = G * M / r^2
-            float forceMag = (gravityG * mass) / (distSq * dist); 
+            dir.normalize(); // We need the normalized direction for both forces
             
-            ax.set(i, ax.get(i) + dir.x * forceMag);
-            ay.set(i, ay.get(i) + dir.y * forceMag);
-            az.set(i, az.get(i) + dir.z * forceMag);
+            // --- 2. GRAVITY FORCE ---
+            // Newton's Law: a = G * M / r^2
+            float gravMag = (gravityG * mass) / distSq; 
+            
+            // --- 3. SPIN FORCE ---
+            // Tangent vector perpendicular to gravity and the Y-axis
+            PVector tangent = spinAxis.cross(dir).normalize();
+            // Spin gets stronger as it gets closer
+            float spinMag = 9000.0f / dist; 
+            
+            // --- 4. FLATTENING DRAG (Accretion Disk) ---
+            // Slowly dampen the Y-velocity so particles settle into the X/Z equator
+            p.vel.y *= 0.98f; 
+            
+            // --- 5. COMBINE AND APPLY ---
+            // Add the gravity pull and the spin push together
+            float totalAx = (dir.x * gravMag) + (tangent.x * spinMag);
+            float totalAy = (dir.y * gravMag) + (tangent.y * spinMag);
+            float totalAz = (dir.z * gravMag) + (tangent.z * spinMag);
+            
+            // Update the acceleration arrays exactly ONCE per particle
+            ax.set(i, ax.get(i) + totalAx);
+            ay.set(i, ay.get(i) + totalAy);
+            az.set(i, az.get(i) + totalAz);
         }
     }
 }

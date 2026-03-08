@@ -6,7 +6,7 @@ SimCamera myCam;
 
 
 void setup () {
-    size(1920,1080,P3D);
+    size(2200,1600,P3D);
 
     mySystem = new System (new PVector (0,0,0));
 
@@ -21,7 +21,7 @@ void setup () {
 
     myCam = new SimCamera();
 
-    myGUI = new GUI(myCam);
+    myGUI = new GUI(myCam, mySystem);
 }
 
 float x = 1;
@@ -39,11 +39,49 @@ void draw () {
   strokeWeight(2);
   translate(width/2, height/2, -100);
   noFill();
-  box(250);
+  stroke(250,30,30);
+  box(350);
 
   //mandatory update stuff
   myRenderer.display();
   myPhys.update();
+
+
+  if (myPhys.bh != null) {
+    pushMatrix();
+    translate(myPhys.bh.pos.x, myPhys.bh.pos.y, myPhys.bh.pos.z);
+
+    //event horizon
+    fill(0); // Pure black
+    noStroke();
+    sphere(myPhys.bh.r_in*3.5); // Draw it at the exact point of no return!
+
+    //magnetic zone
+    noFill();
+    strokeWeight(2);
+
+    float time = millis()*0.001f;
+
+    int numRings = 8; //number of rings
+    for (int i = 0; i< numRings; i++) {
+      pushMatrix();
+
+      //rotation angle math
+      rotateX(time+(PI/numRings)*i);
+      rotateY(time*0.7f + (PI / numRings) * i);
+
+      //outer boundary
+      stroke (70,20,70,150);
+      ellipse(0,0,myPhys.bh.r_acc*2.5,myPhys.bh.r_acc*2.5);
+
+      //draw inner photon ring
+      stroke(0,12,186,120);
+      ellipse(0,0,myPhys.bh.r_acc*3.5,myPhys.bh.r_acc*3.5);
+
+      popMatrix();
+    }
+    popMatrix();
+}
 
   myGUI.display();
 }

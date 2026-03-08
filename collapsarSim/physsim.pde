@@ -7,11 +7,13 @@ class physics_eng {
     System data;
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
-    BlackHole bh = null; 
-    float collapseDensityThreshold = 21.0f; // TUNE THIS: How dense before it collapses?
+    public BlackHole bh = null; 
+    float collapseDensityThreshold = 25.0f; // TUNE THIS: How dense before it collapses?
     BarnesHutTree gravityTree;
     // The SPH 'h' value (how far particles look for neighbors)
     float searchRadius = 20.0f; 
+
+    float maxDensity = 0.0;
     
     // 1. The spatial hash grid
     
@@ -67,7 +69,7 @@ class physics_eng {
        
        if (bh == null) {
             // Scan for a collapse
-            float maxDensity = 0.0;
+            
             for (int i = 0; i < data.particles.size(); i++) {
                 Particle p = data.particles.get(i);
                 if(p.density > maxDensity){
@@ -76,7 +78,7 @@ class physics_eng {
                 if (p.density > collapseDensityThreshold) {
                     println("STAR COLLAPSED! Black Hole Formed!");
                     // Give it a massive starting weight and a radius based on your SPH h
-                    bh = new BlackHole(p.pos, p.vel, p.mass * 100.0f, searchRadius * 3.0f);
+                    bh = new BlackHole(p.pos, p.vel, p.mass * 120.0f, searchRadius * 3.0f);
                     p.alive = false;
                     break; 
                 }

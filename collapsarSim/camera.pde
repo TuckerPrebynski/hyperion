@@ -44,7 +44,7 @@ class SimCamera {
     //movement-logic
     float orbitSpeed = 0.05;
     if (is_moving) {
-      theta += 0.05;
+      theta += 0.005;
     } else {
       /*
       if (mousePressed) {
@@ -54,11 +54,8 @@ class SimCamera {
         phi = constrain(phi, -PI/2.1, PI/2.1);
       }
         */
-
-      
-
       if (keyPressed) {
-        
+        orbitSpeed = 0.05;
         //float rightX = cos(theta);
         //float rightZ = -sin(theta);
         //float panSpeed = 10.0;
@@ -77,6 +74,7 @@ class SimCamera {
     }
 
     if (keyPressed) {
+      orbitSpeed = 0.05;
       if (keyCode == UP) {
           phi -= orbitSpeed;
           //targetY -= panSpeed;

@@ -12,7 +12,7 @@ class Particle{
 
     Particle(PVector initPos){
         pos = initPos.copy();
-        vel = new PVector(0.0, 0.0, 0.0);
+        vel = new PVector(random(-10.0,10.0), random(-10.0,10.0), random(-10.0,10.0));
         acc = new PVector(0.0, 0.0, 0.0);
         press = density = 0;
         mass = 100.0;
