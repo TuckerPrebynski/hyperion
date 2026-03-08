@@ -1,14 +1,21 @@
-# HackCU 2026: Hyperion 
+# HackCU 2026: Hyperion
 
 <p align="center">
-<strong>"Gravity Is The Harshest Critic"</strong>
+  <strong><em>"Gravity Is The Harshest Critic"</em></strong>
 </p>
 
+<h1 align="center">🌟 Hyperion Collapsar Star-Death Simulation</h1>
 
-# 🌟Hyperion Collapsar Star-Death Simulation
-![Background](media/background.png)
+<p align="center">
+  <img src="media/background.png" alt="Hyperion Background" width="100%">
+</p>
 
-An interactive, particle-based physics simulation of a Collapsar (a massive star's dramatic transition into a black hole). This project visualizes the delicate balance between radiation pressure and gravity, the formation of accretion disks, and the release of relativistic jets.
+<p align="center">
+  An interactive, particle-based physics simulation of a <strong>Collapsar</strong> — a massive star’s dramatic transition into a black hole.
+  This project visualizes the delicate balance between radiation pressure and gravity, the formation of accretion disks, and the release of relativistic jets.
+</p>
+
+---
 
 ## Table of Contents
 
