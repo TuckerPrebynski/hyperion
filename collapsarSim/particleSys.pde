@@ -11,10 +11,12 @@ class System{
         particles = new ArrayList<Particle>();
     }
 
-    void initParticles(int numParts){
+    void initParticles(int numParts, float rad){
         maxParts = numParts;
         for(int i = 0; i < numParts; i++){
-            particles.add(new Particle(origin));
+            float theta = random(rad);
+            PVector newPos = new PVector(sin(theta)*cos(theta), sin(theta)*sin(theta), cos(theta));
+            particles.add(new Particle(newPos));
         }
     }
 
