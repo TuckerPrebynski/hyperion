@@ -38,7 +38,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ## 🤩 The Visual Process
 
 <p align="center">
-<strong>5,000 particles<strong>
+<strong>5,000 particles</strong>
 </p>
 
 <p align="center">
@@ -46,7 +46,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 </p>
 
 <p align="center">
-<strong>Particles forming into a spherical object<strong>
+<strong>Particles forming into a spherical object</strong>
 </p>
 
 ![ThrowEmInACircle](media/gif1.gif)
