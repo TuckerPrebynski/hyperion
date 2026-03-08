@@ -44,8 +44,19 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 **Shape structure** 
 
+![CircleInaBox](media/gif3.gif)
+
 **Implosion draft**
 
-**Black Hole draft**
+![FirstKaboom](media/gif4.gif)
+
+**Implosion into Black hole draft**
+
+![KaboomPerfect](media/gif5.gif)
+
+**Black hole draft**
+
+![FirstBlackHole](media/gif6.gif)
+
 
 # hyperion
