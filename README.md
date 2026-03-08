@@ -61,6 +61,7 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 - **R** — Rotates the camera 360°  
   *(navigation becomes limited to the ⬆️ and ⬇️ arrow keys)*
 - **⬆️ ⬇️ ⬅️ ➡️ Arrow Keys** — Manually rotate the camera when the **R** toggle is off
+- ➕ / ➖ - Zoom in / Zoom out
 
 ---
 
