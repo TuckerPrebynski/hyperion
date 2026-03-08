@@ -6,13 +6,17 @@ SimCamera myCam;
 
 
 void setup () {
-    size (1920,1080,P3D);
+    size(1920,1080,P3D);
+
     mySystem = new System (new PVector (0,0,0));
 
     mySystem.initParticles(5000, 200);
 
     myRenderer = new oldRender (mySystem);
     
+    myRenderer = new Render (mySystem);
+    myRenderer.init();
+
     myPhys = new physics_eng(mySystem);
 
     myCam = new SimCamera();
@@ -38,7 +42,7 @@ void draw () {
   box(250);
 
   //mandatory update stuff
-  myRenderer.display(x, y, z);
+  myRenderer.display();
   myPhys.update();
 
   myGUI.display();
