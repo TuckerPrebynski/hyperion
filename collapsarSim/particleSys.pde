@@ -18,7 +18,7 @@ class System{
         for(int i = 0; i < numParts; i++){
             float theta = acos(1 - 2*random(1)); //polar angle
             float phi = random(TWO_PI);  //azimuth angle
-            float rad = radIN;//*random(1);
+            float rad = radIN;// *random(1);
             PVector newPos = new PVector(
                 rad*sin(theta)*cos(phi), 
                 rad*sin(theta)*sin(phi), 
@@ -34,7 +34,7 @@ class System{
       for(int i = 0; i < numParts; i++){
             float theta = acos(1 - 2*random(1)); //polar angle
             float phi = random(TWO_PI);  //azimuth angle
-            float rad = radIN*random(1);
+            float rad = radIN;//*random(1);
             PVector newPos = new PVector(
                 origin.x + rad*sin(theta)*cos(phi), 
                 origin.y + rad*sin(theta)*sin(phi), 
