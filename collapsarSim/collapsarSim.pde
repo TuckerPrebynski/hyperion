@@ -3,7 +3,7 @@ Render myRenderer;
 
 
 void setup () {
-    size (displayWidth-50,displayHeight-50,P3D);
+    size (1920,1080,P3D);
     mySystem = new System (new PVector (0,0,0));
 
     mySystem.initParticles(5000, 200);
