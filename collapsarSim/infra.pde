@@ -11,6 +11,7 @@ class PointHashGridSearcher3 {
     
     // Using Processing's IntList array to avoid Java object boxing!
     IntList[] buckets; 
+    IntList activeBuckets;
 
     PointHashGridSearcher3(int resolutionX, int resolutionY, int resolutionZ, float gridSpacing) {
         this.resX = resolutionX;
@@ -25,6 +26,7 @@ class PointHashGridSearcher3 {
         for (int i = 0; i < numBuckets; i++) {
             buckets[i] = new IntList();
         }
+        activeBuckets = new IntList();
     }
 
     // Hash function: Maps a 3D (x,y,z) coordinate to a 1D array index
@@ -45,14 +47,18 @@ class PointHashGridSearcher3 {
     // OVERRIDE: build() from the C++ textbook
     // Call this exactly once per frame BEFORE calculating SPH forces
     void build(System data) {
-        // 1. Clear all buckets (O(1) operation, NO garbage collection!)
-        for (int i = 0; i < buckets.length; i++) {
-            buckets[i].clear();
+        // 1. Clear ONLY the active buckets (Massive optimization, avoids clearing 262,144 buckets!)
+        for (int i = 0; i < activeBuckets.size(); i++) {
+            buckets[activeBuckets.get(i)].clear();
         }
+        activeBuckets.clear();
 
         // 2. Assign every active particle to a bucket
         for (int i = 0; i < data.numParts; i++) {
             int bucketIdx = getBucketIndex(data.particles.get(i).pos.x, data.particles.get(i).pos.y, data.particles.get(i).pos.z);
+            if (buckets[bucketIdx].size() == 0) {
+                activeBuckets.append(bucketIdx);
+            }
             buckets[bucketIdx].append(i);
         }
     }
