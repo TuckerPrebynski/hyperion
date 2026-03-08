@@ -14,36 +14,12 @@ class Render {
       //load shaders
       partShader = loadShader("particles.frag", "particles.vert");
 
-      //upload VBO
-      partCloud = createShape();
-      partCloud.beginShape(POINTS);
-
-      for(int i = 0; i < sysRef.particles.size(); i++){
-        Particle p = sysRef.particles.get(i);
-
-        //init vert colour and pos
-        partCloud.stroke(255, 255, 255, 180);
-        partCloud.vertex(p.pos.x, p.pos.y, p.pos.z);
-      }
-
-      partCloud.endShape();
-
       rampTex = buildRamp();
-      partShader.set("rampTex", rampTex);
     }
 
     void display(){
         for(int i = 0; i < sysRef.particles.size(); i++){
-          Particle p = sysRef.particles.get(i);
-          p.update();
-          
-          if(p.alive){
-            partCloud.setVertex(i, p.pos.x, p.pos.y, p.pos.z);
-            partCloud.setStroke(i, color(p.temp, 0, 0, 180));
-          }
-          else{//dead
-            partCloud.setStroke(i, color(0, 0, 0, 0));
-          }
+          sysRef.particles.get(i).update();
         }
 
         blendMode(ADD);
@@ -51,12 +27,18 @@ class Render {
 
         //bind shader and set uniforms
         shader(partShader, POINTS);
-        //partShader.set("pointSize", baseSize);
         strokeWeight(baseSize);
-        partShader.set("weight", baseSize);
+        partShader.set("rampTex", rampTex);
 
         //draw them!
-        shape(partCloud);
+        for(int i = 0; i < sysRef.particles.size(); i++){
+          Particle p = sysRef.particles.get(i);
+          if(p.alive){
+            float t = p.temp/255;
+            stroke(t*255, 0, 0, 180);
+            point(p.pos.x, p.pos.y, p.pos.z);
+          }
+        }
 
         //cleanup
         resetShader();
