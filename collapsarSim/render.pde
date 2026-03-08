@@ -1,3 +1,7 @@
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import processing.opengl.PGraphicsOpenGL;
+
 class Render {
     System sysRef;
     PShader partShader;
@@ -18,6 +22,9 @@ class Render {
     }
 
     void display(){
+        PGraphicsOpenGL pg = (PGraphicsOpenGL)g;
+        pg.beginPGL();
+
         for(int i = 0; i < sysRef.particles.size(); i++){
           sysRef.particles.get(i).update();
         }
@@ -42,19 +49,19 @@ class Render {
 
         //cleanup
         resetShader();
+        pg.beginPGL();
         blendMode(BLEND);
     }
 
     PImage buildRamp(){
       int[] rampData = {
-        color(0, 0, 0), //black, least intense
-        color(51, 102, 179),
-        color(51, 175, 255),
-        color(51,  175, 255),
-        color(57,  255, 20),
-        color(150, 255, 50),
-        color(150, 255, 50),
-        color(255, 255, 75) //bright yellow, most intense (prob should be blue?? rethink one working) TODO
+        color(220, 20, 60), //crimson, least intense
+        color(255, 165, 0),
+        color(255, 215, 0),
+        color(173, 216, 230),
+        color(65,  105, 225),
+        color(0, 165, 255),
+        color(255, 255, 255) //bright while, most intense
       };
 
       PImage rampTex = createImage(rampData.length, 1, ARGB);
