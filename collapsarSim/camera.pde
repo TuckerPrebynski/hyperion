@@ -26,7 +26,7 @@ class SimCamera {
     //num = 0;
 
     is_moving = true;
-    rWasPressed = false;
+    rWasPressed = false;    
   }
 
   void apply() {
@@ -42,10 +42,11 @@ class SimCamera {
     }
 
     //movement-logic
+    float orbitSpeed = 0.05;
     if (is_moving) {
       theta += 0.05;
     } else {
-        /*
+      /*
       if (mousePressed) {
         theta -= (mouseX - pmouseY)*0.1;
         phi -= (mouseY - pmouseY)*0.1;
@@ -54,8 +55,10 @@ class SimCamera {
       }
         */
 
+      
+
       if (keyPressed) {
-        float orbitSpeed = 0.05;
+        
         //float rightX = cos(theta);
         //float rightZ = -sin(theta);
         //float panSpeed = 10.0;
@@ -70,15 +73,18 @@ class SimCamera {
             //targetX += rightX * panSpeed;
             //targetZ += rightZ * panSpeed;
         }
-        if (keyCode == UP) {
-            phi -= orbitSpeed;
-            //targetY -= panSpeed;
+      }
+    }
+
+    if (keyPressed) {
+      if (keyCode == UP) {
+          phi -= orbitSpeed;
+          //targetY -= panSpeed;
         }
         if (keyCode == DOWN) {
-            phi += orbitSpeed;
-            //targetY += panSpeed;
+          phi += orbitSpeed;
+          //targetY += panSpeed;
         }
-      }
     }
 
     eyeX = targetX + radius * cos(phi) * sin(theta);
@@ -86,11 +92,9 @@ class SimCamera {
     eyeZ = targetZ + radius * cos(phi) * cos(theta);
 
     float upY = 1.0;
-
     if (cos(phi) < 0) {
         upY = -1.0;
     }
-
 
     camera(eyeX, eyeY, eyeZ, targetX, targetY, targetZ, 0, upY, 0);
   }

@@ -9,7 +9,7 @@ class oldRender {
 
     }
 
-    void display(float newX, float newY, float newZ){
+    void display(){
         //color changing
         stroke (255);
         strokeWeight(4);
@@ -18,7 +18,7 @@ class oldRender {
             Particle p = sysRef.particles.get(i);
 
             if (p.alive) {
-                point(p.pos.x+random(-newX,newX), p.pos.y+random(-newY,newY), p.pos.z+random(-newZ,newZ));
+                point(p.pos.x, p.pos.y, p.pos.z);
             }
         }
     }
