@@ -27,7 +27,7 @@ class BarnesHutTree {
     int nextAvailableNode = 0;
     
     float theta = 0.5f;       // Accuracy vs Speed threshold. 0.5 is standard.
-    float gravityG = 5.0f;    // Gravitational Constant (Tuned for the simulation)
+    float gravityG = 20.0f;    // Gravitational Constant (Tuned for the simulation)
     float softeningSq = 10.0f; // Prevents infinite forces when particles overlap
 
     BarnesHutTree(int maxParticles) {
@@ -84,13 +84,17 @@ class BarnesHutTree {
 
         // 2. Base Case: If node is empty, put the particle here
         if (node.isLeaf && node.particleIndex == -1) {
-            node.particleIndex = particleIdx;
+            
+          node.particleIndex = particleIdx;
             return;
         }
 
         // 3. Collision Case: If it's a leaf but already has a particle, 
         // we must split it, push the old particle down, then push the new one down.
         if (node.isLeaf) {
+            if (node.width < 0.001f) {
+              return; 
+            }
             node.isLeaf = false;
             int oldParticleIdx = node.particleIndex;
             node.particleIndex = -1; // It is now an internal branch
@@ -106,7 +110,7 @@ class BarnesHutTree {
         BarnesHutNode node = pool[nodeIdx];
         
         // Find which of the 8 sub-quadrants the particle belongs in
-        int octant = getOctant(node.x, node.y, node.z, data.particles.get(pIdx).pos.x, data.particles.get(pIdx).pos.y, data.particles.get(pIdx).pos.x);
+        int octant = getOctant(node.x, node.y, node.z, data.particles.get(pIdx).pos.x, data.particles.get(pIdx).pos.y, data.particles.get(pIdx).pos.z);
         
         // If the child doesn't exist yet, allocate it
         if (node.children[octant] == -1) {
@@ -136,12 +140,12 @@ class BarnesHutTree {
         return oct;
     }
     // --- STEP 2: CALCULATE FORCES ---
-    void applyGravity(int particleIdx, System data, float[] ax, float[] ay, float[] az) {
+    void applyGravity(int particleIdx, System data, FloatList ax, FloatList ay, FloatList az) {
         // Start traversing from the root node (Index 0)
         traverseAndApply(0, particleIdx, data, ax, ay, az);
     }
 
-    private void traverseAndApply(int nodeIdx, int pIdx, System data, float[] ax, float[] ay, float[] az) {
+    private void traverseAndApply(int nodeIdx, int pIdx, System data, FloatList ax, FloatList ay, FloatList az) {
         if (nodeIdx == -1) return;
         BarnesHutNode node = pool[nodeIdx];
         
@@ -163,9 +167,9 @@ class BarnesHutTree {
             // We multiply by dx/dist to get the directional vector (which makes the denominator dist^3)
             float forceMag = gravityG * node.mass / (distSq * dist); 
             
-            ax[pIdx] += dx * forceMag;
-            ay[pIdx] += dy * forceMag;
-            az[pIdx] += dz * forceMag;
+            ax.set(pIdx,ax.get(pIdx) + dx * forceMag);
+            ay.set(pIdx,ay.get(pIdx) + dy * forceMag);
+            az.set(pIdx,az.get(pIdx) + dz * forceMag);
             
         } else {
             // It's too close! We must open the box and check the children
