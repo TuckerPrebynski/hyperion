@@ -56,8 +56,10 @@ class Render {
       int[] rampData = { //blue ramp
         color(75, 0, 255),
         color(125,  65, 225),
+        color(0, 165, 255),
+        color(65,  105, 225),
         color(173, 216, 230),
-        color(200, 200, 255) //bright white, most intense
+        color(255, 255, 255) //bright white, most intense
       };
 
       PImage rampTex = createImage(rampData.length, 1, ARGB);
