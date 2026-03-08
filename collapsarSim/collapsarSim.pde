@@ -42,7 +42,7 @@ void draw () {
   box(250);
 
   //mandatory update stuff
-  myRenderer.display();
+  myRenderer.display(x,y,z);
   myPhys.update();
 
   myGUI.display();
