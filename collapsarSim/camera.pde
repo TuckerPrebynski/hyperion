@@ -13,6 +13,8 @@ class SimCamera {
 
   boolean is_moving;
   boolean rWasPressed;
+  boolean simPaused;
+  boolean spaceWasPressed;
 
   SimCamera () {
     radius = (height / 2.0) / tan(PI / 6.0);
@@ -26,11 +28,29 @@ class SimCamera {
     //num = 0;
 
     is_moving = true;
-    rWasPressed = false;    
+    rWasPressed = false;   
+    is_moving = true;
+    rWasPressed = false; 
+    
+    simPaused = false;     // Simulation starts unpaused
+    spaceWasPressed = false; 
   }
 
   void apply() {
     //keypress logic
+    //pause
+    if (keyPressed && key == ' ') { 
+      if (!spaceWasPressed) {
+        simPaused = !simPaused; // Toggle the pause state
+        spaceWasPressed = true; // Lock it
+      }
+    } else if (!keyPressed || key != ' ') {
+      spaceWasPressed = false;  // Unlock when released
+    }
+
+    
+
+    //stop rotate
     if (keyPressed && (key == 'r' || key == 'R')) { // r pauses
       if (!rWasPressed) {
         is_moving = !is_moving; // state toggle
@@ -44,7 +64,7 @@ class SimCamera {
     //movement-logic
     float orbitSpeed = 0.05;
     if (is_moving) {
-      theta += 0.05;
+      theta += 0.005;
     } else {
       /*
       if (mousePressed) {
@@ -54,11 +74,8 @@ class SimCamera {
         phi = constrain(phi, -PI/2.1, PI/2.1);
       }
         */
-
-      
-
       if (keyPressed) {
-        
+        orbitSpeed = 0.05;
         //float rightX = cos(theta);
         //float rightZ = -sin(theta);
         //float panSpeed = 10.0;
@@ -77,6 +94,7 @@ class SimCamera {
     }
 
     if (keyPressed) {
+      orbitSpeed = 0.05;
       if (keyCode == UP) {
           phi -= orbitSpeed;
           //targetY -= panSpeed;
