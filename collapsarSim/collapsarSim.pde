@@ -37,7 +37,7 @@ void resetSimulation() {
   mySystem = new System(new PVector(0, 0, 0));
 
   //mySystem.initParticles(6000, 200);
-  mySystem.addStar(15000, 200, new PVector(0, 0, 0));
+  mySystem.addStar(10000, 200, new PVector(0, 0, 0));
   //mySystem.addStar(6000,50,new PVector(-300,300,0));
 
 
@@ -81,7 +81,7 @@ void setup() {
   starField = createShape();
   starField.beginShape(POINTS);
   starField.stroke(255); // White stars
-  starField.strokeWeight(3); // Size of stars
+  starField.strokeWeight(4); // Size of stars
 
   int[] starCols = {
     //blues
@@ -98,8 +98,8 @@ void setup() {
     color(150, 165, 160)
   };
 
-  // Generate 5,000 static stars in a sphere or box
-  for (int i = 0; i < 8000; i++) {
+  // Generate 9,000 static stars in a sphere or box
+  for (int i = 0; i < 9000; i++) {
     float x = 0, y = 0, z = 0;
     float innerLimit = 2000;
     float outerLimit = 10000;
@@ -139,11 +139,11 @@ void draw() {
 
   // Box display for testing
   pushMatrix();
-  strokeWeight(2);
-  translate(0, 0, 0);
-  noFill();
-  stroke(250, 30, 30);
-  box(350);
+  //strokeWeight(2);
+  //translate(0, 0, 0);
+  //noFill();
+  //stroke(250, 30, 30);
+  //box(350);
   popMatrix();
 
   // --- 3. THREAD-SAFE RENDERING ---
@@ -158,13 +158,13 @@ void draw() {
       // Event horizon
       fill(0);
       noStroke();
-      sphere(renderBhRIn * 3.5f);
+      sphere(renderBhRIn * 4f);
 
       // Magnetic zone
       noFill();
       strokeWeight(2);
       float time = millis() * 0.001f;
-      int numRings = 8;
+      int numRings = 10;
       for (int i = 0; i < numRings; i++) {
         pushMatrix();
         rotateX(time + (PI / numRings) * i);
@@ -172,11 +172,11 @@ void draw() {
 
         //outer boundary
         stroke (70, 20, 70, 150);
-        ellipse(0, 0, renderBhRAcc*2.5, renderBhRAcc*2.5);
+        ellipse(0, 0, renderBhRAcc*2, renderBhRAcc*2);
 
         //draw inner photon ring
         stroke(0, 12, 186, 120);
-        ellipse(0, 0, renderBhRAcc*3.5, renderBhRAcc*3.5);
+        ellipse(0, 0, renderBhRAcc*2.7, renderBhRAcc*2.7);
 
         popMatrix();
       }
