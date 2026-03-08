@@ -1,14 +1,17 @@
 System mySystem;
 Render myRenderer;
+physics_eng myPhys;
 
 
 void setup () {
-    size (1920,1090,P3D);
+    size (1920,1080,P3D);
     mySystem = new System (new PVector (0,0,0));
 
-    mySystem.initParticles(5000, 200);
+    mySystem.initParticles(50000, 200);
 
     myRenderer = new Render (mySystem);
+    
+    myPhys = new physics_eng(mySystem);
 }
 
 float x = 1;
@@ -23,7 +26,6 @@ float cameraZ = (height/2) / tan(PI/6);
 
 void draw () {
   background(0);
-  
   
   strokeWeight(2);
   //stroke(random(0,255));
@@ -49,4 +51,5 @@ void draw () {
   point(x,y,z);
 
   myRenderer.display(x, y, z);
+  myhys.update();
 }
