@@ -6,7 +6,7 @@ void setup () {
     size (1920,1080,P3D);
     mySystem = new System (new PVector (0,0,0));
 
-    mySystem.initParticles(5000, 200);
+    mySystem.initParticles(50000, 200);
 
     myRenderer = new Render (mySystem);
 }
