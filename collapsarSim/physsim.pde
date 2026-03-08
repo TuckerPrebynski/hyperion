@@ -4,7 +4,9 @@ class physics_eng {
 
     System data;
     float dt = 0.016f; 
+    float simBounds = 2000.0f; // Total width of your simulation box
     
+    BarnesHutTree gravityTree = new BarnesHutTree(data.maxParts);
     // The SPH 'h' value (how far particles look for neighbors)
     float searchRadius = 20.0f; 
     
