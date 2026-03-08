@@ -45,10 +45,12 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 <a id="meet-the-team"></a>
 ## 👥 Meet the Team
 
-* [**Channa J**](https://github.com/FireEmblem3h): Organization, Logo/Art, Documentation, and Research.
-* [**Dan O**](https://github.com/cult-of-maxwellism): Camerawork and Development
-* [**Lila P**](https://github.com/TuckerPrebynski): Physics and Development
-* [**Sage E**](https://github.com/b00kworm4lyf3): Graphics and Shaders Development
+- [**Channa J**](https://github.com/FireEmblem3h) — Organization, Logo/Art, Documentation, and Research
+- [**Dan O**](https://github.com/cult-of-maxwellism) — Camerawork and Development
+- [**Lila P**](https://github.com/TuckerPrebynski) — Physics and Development
+- [**Sage E**](https://github.com/b00kworm4lyf3) — Graphics and Shaders Development
+
+---
 
 <a id="running-the-simulation"></a>
 ## 🎮 Running the Simulation
@@ -62,7 +64,7 @@ R - Rotates 360 (navigation limited to ⬆️ and ⬇️ arrows)
 <a id="framework-and-implementation"></a>
 ## ⚙️ Framework and Implementation
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+This project was developed using Processing for both visualization and implementation. We relied heavily on the official [Processing documentation](https://processing.org/reference/ArrayList.html)!
 
 <a id="the-visual-process"></a>
 ## 🌌 The Visual Process
