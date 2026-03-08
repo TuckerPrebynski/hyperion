@@ -10,7 +10,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 ## Table of Contents
 
 - [Overview](#overview)
-- [👥 Meet the Team](#👥meet-the-team)
+- [👥 Meet the Team](#👥-meet-the-team)
 - [⚙️ Framework and Implementation](#framework-and-implementation)
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
