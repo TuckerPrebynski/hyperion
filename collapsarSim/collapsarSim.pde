@@ -6,7 +6,7 @@ void setup () {
     size (2500,2000,P3D);
     mySystem = new System (new PVector (0,0,0));
 
-    mySystem.initParticles(5000);
+    mySystem.initParticles(5000, 200);
 
     myRenderer = new Render (mySystem);
 }
@@ -35,7 +35,7 @@ void draw () {
   
   strokeWeight(10);
   stroke(250,20,10);
-  //point(mouseX,mouseY,50);
+  point(mouseX,mouseY,50);
   x+=(random(-10,10));
   y+=(random(-10,10));
   z+=(random(-10,10));
