@@ -12,6 +12,7 @@ A Collapsar occurs when a massive star runs out of fuel. In this simulation, we 
 
 Because the star is naturally spinning, the infalling material forms a hot, spinning accretion disk rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)** (powerful jets of energy) and a **hypernova** explosion.
 
+
 <p align="center">
   <img src="media/lifecycle.png" width="600">
 </p>
