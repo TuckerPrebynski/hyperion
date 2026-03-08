@@ -1,9 +1,18 @@
-float x = 0;
-float y = 0;
-float z = 0;
+float x = 1;
+float y = 1;
+float z = 1;
+
+System mySystem;
+Render myRenderer;
+
 
 void setup () {
     size (1920,1080,P3D);
+    mySystem = new System (new PVector (0,0,0));
+
+    mySystem.initParticles(5000);
+
+    myRenderer = new Render (mySystem);
 }
 
 void draw () {
@@ -21,8 +30,9 @@ void draw () {
   stroke(255);
   point(x,y,z);
   point(mouseX,mouseY,50);
-  x++;
-  y++;
-  z++;
-  
+  x+=(random(-10,10));
+  y+=(random(-10,10));
+  z+=(random(-10,10));
+
+  myRenderer.display(x, y, z);
 }
