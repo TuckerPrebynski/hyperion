@@ -8,10 +8,12 @@
 An interactive, particle-based physics simulation of a Collapsar (a massive star's dramatic transition into a black hole). This project visualizes the delicate balance between radiation pressure and gravity, the formation of accretion disks, and the release of relativistic jets.
 
 ## Table of Contents
+
 - [Overview](#overview)
-- [Meet the Team](#meettheteam)
-- [Famework & Implementation](#framework&implementation)
-- [The Visual Process](thevisualprocess)
+- [Meet the Team](#meet-the-team)
+- [Framework & Implementation](#framework--implementation)
+- [The Visual Process](#the-visual-process)
+- [Links & References](#links--references)
 
 ## Overview
 A Collapsar occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole. 
