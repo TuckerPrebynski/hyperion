@@ -3,7 +3,6 @@ class Render {
     PShader partShader;
     PShape partCloud;
 
-    float baseSize = 6.0;
     PImage rampTex;
 
     Render (System systemToRender) {
@@ -23,13 +22,13 @@ class Render {
 
         //bind shader and set uniforms
         shader(partShader, POINTS);
-        strokeWeight(baseSize);
         partShader.set("rampTex", rampTex);
 
         //draw them!
         for(int i = 0; i < renderCount; i++){
           RenderParticle p = renderBuffer[i];
-          int maxVel = 300000; //TODO: calc max system velicity in sim
+          int maxVel = 10000000; //TODO: calc max system velicity in sim
+          strokeWeight((p.mass)*0.03);
           if(p.alive){
             p.temp = (int)constrain(map(p.vel.magSq(), 0, maxVel, 0, 255), 0, 255);
             float t = p.temp/255.0;

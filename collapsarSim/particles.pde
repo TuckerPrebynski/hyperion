@@ -31,7 +31,7 @@ class Particle{
         this.alive = other.alive;
     }
 
-    void update(){
+    void update(){ //not being used now that we're using renderParticle for rendering
         int maxVel = 300000; //TODO: calc max system velicity in sim
         if(alive){
             temp = (int)constrain(map(vel.magSq(), 0, maxVel, 0, 255), 0, 255);
