@@ -1,7 +1,4 @@
 class GUI {
-   
-   
-
     // Constructor now pipes in BOTH the camera and the system data
     GUI() {
     }
@@ -60,7 +57,6 @@ class GUI {
         
         // Print the active particle count
         text("Active Mass: " + activeParticles, 20, 170);
-        
         // Print the raw units and the scientific units!
         text("Avg Vel: " + nf(avgVelRaw, 0, 2) + " u/tick", 20, 200);
         // Uncomment this next line if you want to show the realistic km/s and % speed of light!
