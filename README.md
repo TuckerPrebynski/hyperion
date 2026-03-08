@@ -11,7 +11,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 
 - [Overview](#overview)
 - [👥 Meet the Team](#meet-the-team)
-- [🎮 Navigation](#navigation)
+- [🎮 Running the Simulation](#running-the-simulation)
 - [⚙️ Framework and Implementation](#framework-and-implementation)
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
@@ -36,8 +36,8 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 * [**Lila P**](https://github.com/TuckerPrebynski): Physics and Development
 * [**Sage E**](https://github.com/b00kworm4lyf3): Graphics and Shaders Development
 
-<a id="Navigation"></a>
-## 🎮 Navigation
+<a id="Running the Simulation"></a>
+## 🎮 Running the Simulation
 ```
 Space - Pause/unpause toggle
 R - Rotates 360 (navigation limited to ⬆️ and ⬇️ arrows)
@@ -98,11 +98,10 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 
 <a id="links-and-references"></a>
-## 📚 Links and References
+## 📚 Links
 
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
+If you want a 
 
 
 ## Thank you for your time, and thank you HackCU!
