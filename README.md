@@ -102,7 +102,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 ## 📚 Links
 
 
-If you want a 
+**Want a deeper dive into the project? Check out our Google Doc [here!](https://docs.google.com/document/d/1_Y3OA4gx3A6Lj1nX1JPAvsthqIQH9s7wRs-A8DgGQSU/edit?usp=sharing)**
 
 
 ## Thank you for your time, and thank you HackCU!
