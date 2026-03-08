@@ -4,7 +4,7 @@
   <strong><em>"Gravity Is The Harshest Critic"</em></strong>
 </p>
 
-<h1 align="center">🌟 Hyperion Collapsar Star-Death Simulation</h1>
+<h1 align="center">🌟 Hyperion Collapsar Star-Death Simulation 🌟</h1>
 
 <p align="center">
   <img src="media/background.png" alt="Hyperion Background" width="100%">
