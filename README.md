@@ -116,4 +116,6 @@ https://processing.org/reference/ArrayList.html
 Gamma-ray powered star collapsing image.  
 https://phys.org/news/2020-04-gamma-ray-powered-star-collapsing-magnetic.html
 
+## Thank you for your time, and thank you HackCU!
 
+![LogoFinish](media/logo.png)
