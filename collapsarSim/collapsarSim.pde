@@ -28,24 +28,13 @@ void draw () {
   //this is what "clears" the screen
   background(0);
 
-  myCam.apply();
-
-  //box display for testing, delete in prod
-  strokeWeight(2);
-  translate(width/2, height/2, -100);
-  noFill();
-  box(250);
-
-  //randomizer for point cloud, delete at some point
-  x+=(random(-10,10));
-  y+=(random(-10,10));
-  z+=(random(-10,10));
-  //random point, can be deleted whenever
-  strokeWeight(10);
-  stroke(250,20,10);
-  point(mouseX,mouseY,50);
-  //random point 2
-  point(x,y,z);
+  float camDist = 600;
+  float angle = frameCount * 0.01;
+  camera(
+    cos(angle) * camDist, 200, sin(angle) * camDist,  // eye
+    0, 0, 0,                                            // look at origin
+    0, 1, 0                                             // up
+  );
 
   //mandatory update stuff
   myRenderer.display();

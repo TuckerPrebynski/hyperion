@@ -6,7 +6,7 @@ class Particle{
     float press;
     float density;
     float mass;
-    float temp; //colour value indicator
+    int temp; //colour value indicator, based on vel later
 
     boolean alive;
 
@@ -33,8 +33,7 @@ class Particle{
 
     void update(){
         if(alive){
-            vel.add(acc);
-            pos.add(vel);
+            temp = (int)constrain(map((int)vel.magSq(), 0, 10, 0, 255), 0, 255);
         }
     }
 
