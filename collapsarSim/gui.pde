@@ -52,13 +52,13 @@ class GUI {
 
     // --- LEFT ALIGNED (TELEMETRY) ---
      textFont(fTelemetry, 30);
-     fill(255, 150, 0);
+     fill(34, 139, 34);
      text("BLACK HOLE MASS: " + nf(renderBhMass, 0, 2) + " Solar Masses", 30, 30);
      text("ENERGY OUTPUT:   " + nf(ergsPerFrameObj, 0, 2) + " x 10^51 Ergs", 30, 70);
      text("ACCRETION RATE:  " + nf(massPerFrameObj, 0, 4) + " M/dt", 30, 110);
      
      // --- RIGHT ALIGNED (CONTROLS HELP) ---
-     textFont(fUI, 30);
+     textFont(fStatus, 35);
      fill(200);
      text("[SPACE]  PAUSE SIMULATION", 30, 180);
      text("[R]      RESET SYSTEM", 30, 220);
@@ -67,7 +67,7 @@ class GUI {
      text("[S/F]    TOGGLE SLOW-MO", 30, 340);
      
      // --- BOTTOM CENTER (STATUS) ---
-     textFont(fStatus, 32);
+     textFont(fUI, 45);
      if (renderBhExists) {
         fill(255, 50, 50);
         text("STATUS: RELATIVISTIC JET DETECTED", 30, 410);
@@ -87,8 +87,8 @@ class GUI {
     rect(0, 0, 580, 480, 10);
     
     textFont(fTitle, 40);
-    fill(0, 255, 100);
-    text("--- ENG READOUTS ---", 30, 30);
+    fill(34, 139, 34);
+    text("--- CAM LOCATION ---", 30, 30);
 
     textFont(fTelemetry, 30);
     fill(255);
@@ -97,7 +97,7 @@ class GUI {
     text("Cam Z: " + nf(myCam.eyeZ, 0, 2), 30, 170);
 
     textFont(fTitle, 40);
-    fill(0, 255, 100);
+    fill(34, 139, 34);
     text("--- TELEMETRY ---", 30, 240);
     
     textFont(fTelemetry, 30);
@@ -108,8 +108,8 @@ class GUI {
     // Print the raw units and the scientific units!
     text("Avg Vel: " + nf(avgVelRaw, 0, 2) + " u/tick", 30, 350);
     // Uncomment this next line if you want to show the realistic km/s and % speed of light!
-    text("Speed: " + nf(speedKmS, 0, 0) + " km/s", 30, 400);
-    text("(" + nf(percentLight, 0, 2) + "% lightspeed)", 30, 440);
+    //text("Speed: " + nf(speedKmS, 0, 0) + " km/s", 30, 400);
+    //text("(" + nf(percentLight, 0, 2) + "% lightspeed)", 30, 440);
     popMatrix();
     
     // Draw Logo Bottom Right
