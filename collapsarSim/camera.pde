@@ -7,7 +7,7 @@ class SimCamera {
     boolean is_moving;
 
     boolean rWasPressed;
-    
+
     SimCamera (){
         x = 0;
         y = 0;
@@ -51,6 +51,9 @@ void apply() {
         // --- 3. APPLY CAMERA ---
         // Make sure you still have your actual camera call at the bottom!
         camera(x, y, z, width/2.0, height/2.0, 0, 0, 1, 0);
+        textSize(50);
+        fill (0,408,612);
+        text ("X: " + x + " Y: " + y + " Z: " + z, x-20, y-200,z-100);
     }
 }
     /*
