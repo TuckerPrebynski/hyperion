@@ -5,7 +5,7 @@
 </p>
 
 
-# 🌟Hyperion Collapsar Star-Death Simulation🌟
+# 🌟Hyperion Collapsar Star-Death Simulation
 ![Background](media/background.png)
 
 An interactive, particle-based physics simulation of a Collapsar (a massive star's dramatic transition into a black hole). This project visualizes the delicate balance between radiation pressure and gravity, the formation of accretion disks, and the release of relativistic jets.
