@@ -12,7 +12,7 @@ class System{
     }
 
     void initParticles(int numParts, float rad){
-        maxParts = numParts;
+        maxParts = this.numParts = numParts;
         for(int i = 0; i < numParts; i++){
             float theta = acos(1 - 2*random(1)); //polar angle
             float phi = random(TWO_PI);  //azimuth angle
@@ -28,9 +28,11 @@ class System{
     void add(){
         //TODO: figure out where new particles want to go
         particles.add(new Particle(origin));
+        if(particles.size() < maxParts) numParts++;
     }
 
     void kill(Particle dead){
         particles.remove(dead);
+        if(particles.size() >= 0) numParts--;
     }
 }
