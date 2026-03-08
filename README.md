@@ -78,4 +78,42 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ![FirstBlackHole](media/gif6.gif)
 
 
-# hyperion
+## Sources & References
+
+[1] **Dust Simulation Reference**  
+DustSim – Particle simulation reference implementation.  
+https://kodub.itch.io/dustsim
+
+[2] **FEADME: Fast Eulerian Accretion Disk Modeling Engine**  
+N. Mearl et al.  
+Paper: https://arxiv.org/pdf/2512.10228  
+Repository: https://github.com/nmearl/feadme
+
+[3] **Accretion Disk Physics**  
+Orbital velocity and gravitational dynamics reference.  
+https://www.astronomy.ohio-state.edu/ryden.1/ast825/ch9.pdf
+
+[4] **Gravity Formula Reference**  
+Newtonian gravitational force:
+
+F = G * (M * m) / r²
+
+Used for approximating particle interactions in the simulation.
+
+[5] **Star Death Lifecycle Explanation**  
+Philip Metzger – What happens when a star dies.  
+https://philipmetzger.com/explaining-what-happens-when-a-star-dies/
+
+[6] **NASA Gamma-Ray Burst Example**  
+NASA Fermi telescope observation of a collapsing star.  
+https://youtu.be/gkJUy-jLe78
+
+[7] **Processing Reference Documentation**  
+ArrayList class used in particle system implementation.  
+https://processing.org/reference/ArrayList.html
+
+[8] **Collapsar Visualization Reference**  
+Gamma-ray powered star collapsing image.  
+https://phys.org/news/2020-04-gamma-ray-powered-star-collapsing-magnetic.html
+
+
