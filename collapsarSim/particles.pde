@@ -37,9 +37,4 @@ class Particle{
             temp = (int)constrain(map((int)vel.magSq(), 0, maxVel, 0, 255), 0, 255);
         }
     }
-
-    String toString(){
-        return "position = " + pos + " velocity = " + vel + " acceleration = " + acc + 
-               " pressure = " + press + " density = " + density + " mass = " + mass + " temp = " + temp + " alive = " + alive;
-    }
 }
