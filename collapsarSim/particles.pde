@@ -6,7 +6,7 @@ class Particle{
     float press;
     float density;
     float mass;
-    float temp; //colour value indicator
+    int temp; //colour value indicator, based on vel later
 
     boolean alive;
 
@@ -32,9 +32,9 @@ class Particle{
     }
 
     void update(){
+        int maxVel = 1; //TODO: calc max system velicity in sim
         if(alive){
-            vel.add(acc);
-            pos.add(vel);
+            temp = (int)constrain(map((int)vel.mag(), 0, maxVel, 0, 255), 0, 255);
         }
     }
 }
