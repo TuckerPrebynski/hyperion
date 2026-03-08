@@ -1,25 +1,41 @@
 class Render {
     System sysRef;
+    PShader partShader;
+    PShape partCloud;
+
+    float baseSize = 6.0;
 
     Render (System systemToRender) {
         sysRef = systemToRender;
     }
 
     void init () {
+      //load shaders
+      partShader = loadShader("particles.vert", "particles.frag");
 
+      //upload VBO
+      partCloud = createShape();
+      partCloud.beginShape(POINTS);
+      partCloud.noStroke(); //handle colour in shader!
+
+      for(int i = 0; i < sysRef.particles.size(); i++){
+        Particle p = sysRef.particles.get(i);
+
+        //init vert colour and pos
+        partCloud.stroke(255, 255, 255, 180);
+        partCloud.vertex(p.pos.x, p.pos.y, p.pos.z);
+      }
+
+      partCloud.endShape();
     }
 
-    void display(float newX, float newY, float newZ){
-        //color changing
-        stroke (255);
-        strokeWeight(4);
+    void display(){
+        for(int i = 0; i < sysRef.particles.size(); i++){
+          Particle p = sysRef.particles.get(i);
 
-        for (int i = 0; i < sysRef.particles.size(); i++) {
-            Particle p = sysRef.particles.get(i);
-
-            if (p.alive) {
-                point(p.pos.x+random(-newX,newX), p.pos.y+random(-newY,newY), p.pos.z+random(-newZ,newZ));
-            }
+          if(p.alive){
+            partCloud.setVertex(i, p.pos.x, p.pos.y, p.pos.z);
+          }
         }
     }
 }

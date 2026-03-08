@@ -5,12 +5,14 @@ SimCamera myCam;
 
 
 void setup () {
-    size (1920,1080,P3D);
+    size(1920,1080,P3D);
+
     mySystem = new System (new PVector (0,0,0));
 
     mySystem.initParticles(5000, 200);
 
     myRenderer = new Render (mySystem);
+    myRenderer.init();
     
     myPhys = new physics_eng(mySystem);
 
