@@ -142,7 +142,7 @@ This project was developed using Processing for both visualization and implement
 
 [**Channa J.**](https://www.linkedin.com/in/channa-johnson-85018b16b/)
 
-[**Dan O.**]()
+[**Dan O.**](https://www.linkedin.com/in/dan-otten/)
 
 **Lila P.**
 
