@@ -12,7 +12,7 @@ class SimCamera {
   //int num;
 
   boolean is_moving;
-  boolean rWasPressed;
+  boolean cWasPressed;
   boolean simPaused;
   boolean spaceWasPressed;
 
@@ -28,9 +28,9 @@ class SimCamera {
     //num = 0;
 
     is_moving = true;
-    rWasPressed = false;   
+    cWasPressed = false;   
     is_moving = true;
-    rWasPressed = false; 
+    cWasPressed = false; 
     
     simPaused = false;     // Simulation starts unpaused
     spaceWasPressed = false; 
@@ -51,14 +51,14 @@ class SimCamera {
     
 
     //stop rotate
-    if (keyPressed && (key == 'r' || key == 'R')) { // r pauses
-      if (!rWasPressed) {
+    if (keyPressed && (key == 'c' || key == 'C')) { // r pauses
+      if (!cWasPressed) {
         is_moving = !is_moving; // state toggle
-        rWasPressed = true;     // Lock it so it only toggles once per press
+        cWasPressed = true;     // Lock it so it only toggles once per press
       }
     } else {
       // Unlock it as soon as the user lets go of the key
-      rWasPressed = false;
+      cWasPressed = false;
     }
 
     //movement-logic
@@ -95,13 +95,19 @@ class SimCamera {
 
     if (keyPressed) {
       orbitSpeed = 0.05;
+      float zoomSpeed = 50.0;
       if (keyCode == UP) {
           phi -= orbitSpeed;
-          //targetY -= panSpeed;
         }
-        if (keyCode == DOWN) {
+      if (keyCode == DOWN) {
           phi += orbitSpeed;
-          //targetY += panSpeed;
+        }
+      if (key == '-' || key == '_') {
+          radius += zoomSpeed;
+        }
+      if (key == '=' || key == '+') {
+          radius -= zoomSpeed;
+          radius = max(10, radius); // Prevent zooming through the target completely
         }
     }
 
