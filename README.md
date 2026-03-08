@@ -3,6 +3,7 @@
 "Gravity Is The Harshest Critic"
 
 # Hyperion Collapsar Star-Death Simulation
+![Background](media/background.png)
 
 **HackCU 2026**
 
