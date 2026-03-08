@@ -11,6 +11,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 
 - [Overview](#overview)
 - [👥 Meet the Team](#meet-the-team)
+- [🎮 Navigation]()
 - [⚙️ Framework and Implementation](#framework-and-implementation)
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
@@ -35,6 +36,13 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 * [**Lila P**](https://github.com/TuckerPrebynski): Physics and Development
 * [**Sage E**](https://github.com/b00kworm4lyf3): Graphics and Shaders Development
 
+<a id="Navigation"></a>
+## 🎮 Navigation
+```
+Space - Pause/unpause toggle
+R - Rotates 360 (navigation limited to ⬆️ and ⬇️ arrows)
+⬆️, ⬇️, ⬅️, and ➡️ Arrows - Manually rotates the camera (R toggle OFF)
+```
 
 <a id="framework-and-implementation"></a>
 ## ⚙️ Framework and Implementation
