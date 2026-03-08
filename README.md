@@ -11,6 +11,7 @@ An interactive, particle-based physics simulation of a Collapsar (a massive star
 A Collapsar occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole. 
 
 Because the star is naturally spinning, the infalling material forms a hot, spinning accretion disk rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)** (powerful jets of energy) and a **hypernova** explosion.
+
 ![LifeCycle](media/lifecycle.png)
 
 ## Table of Contents
@@ -29,9 +30,11 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 ##🤩 The Visual Process
 
 **5,000 particles**
-![5K](img1.png)
+![Img](img1.png)
 
 **Particles formed into a spherical object**
-![aCircle](vid1.webm)
+<video width="800" controls>
+  <source src="media/vid1.webm" type="video/webm">
+</video>
 
 # hyperion
