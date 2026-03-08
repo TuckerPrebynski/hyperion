@@ -1,9 +1,9 @@
 
 
 class physics_eng {
-    float[] ax; 
-    float[] ay; 
-    float[] az;
+    FloatList ax = new FloatList(); 
+    FloatList ay = new FloatList(); 
+    FloatList az = new FloatList();
     System data;
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
@@ -33,7 +33,7 @@ class physics_eng {
     
     physics_eng(System sharedData) {
         this.data = new System(sharedData);
-        int max = data.maxParts;
+        int max = data.maxParts; //<>//
         
         kernels = new SPHKernels(smoothingRadius);
 
@@ -71,19 +71,19 @@ class physics_eng {
         integrate();
     }
     private void resetAccelerations() {
-        println(data.numParts);
-    for (int i = 0; i < data.numParts; i++) {
-      ax[i] = 0.0f;
-      ay[i] = 0.0f;
-      az[i] = 0.0f;
-    }
+
+        for (int i = 0; i < data.numParts; i++){
+          ax.set(i,0.0);
+          ay.set(i,0.0);
+          az.set(i,0.0);
+        }
   }
     private void integrate() {
     for (int i = 0; i < data.numParts; i++) {
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
-      data.particles.get(i).vel.x += ax[i] * dt;
-      data.particles.get(i).vel.y += ay[i] * dt;
-      data.particles.get(i).vel.z += az[i] * dt;
+      data.particles.get(i).vel.x += ax.get(i) * dt;
+      data.particles.get(i).vel.y += ay.get(i) * dt;
+      data.particles.get(i).vel.z += az.get(i) * dt;
       
       // Then Update Position using the NEW velocity
       data.particles.get(i).pos.x += data.particles.get(i).vel.x * dt;
@@ -178,9 +178,9 @@ class physics_eng {
         
         // Convert Force to Acceleration (F = ma => a = F/m). 
         // We divide by density because this is a fluid force.
-        ax[i] += forceX/data.particles.get(i).density; 
-        ay[i] += forceY/data.particles.get(i).density;
-        az[i] += forceZ/data.particles.get(i).density;
+        ax.set(i,ax.get(i) + forceX/data.particles.get(i).density); 
+        ay.set(i,ay.get(i) + forceY/data.particles.get(i).density);
+        az.set(i,az.get(i) + forceZ/data.particles.get(i).density);
     }
 }
 
