@@ -1,6 +1,7 @@
 System mySystem;
-Render myRenderer;
+oldRender myRenderer;
 physics_eng myPhys;
+GUI myGUI;
 SimCamera myCam;
 
 
@@ -11,12 +12,16 @@ void setup () {
 
     mySystem.initParticles(5000, 200);
 
-    myRenderer = new Render (mySystem);
+    myRenderer = new oldRender (mySystem);
+    
+    //myRenderer = new Render (mySystem);
     myRenderer.init();
 
     myPhys = new physics_eng(mySystem);
 
     myCam = new SimCamera();
+
+    myGUI = new GUI(myCam);
 }
 
 float x = 1;
@@ -28,15 +33,17 @@ void draw () {
   //this is what "clears" the screen
   background(0);
 
-  float camDist = 600;
-  float angle = frameCount * 0.01;
-  camera(
-    cos(angle) * camDist, 200, sin(angle) * camDist,  // eye
-    0, 0, 0,                                            // look at origin
-    0, 1, 0                                             // up
-  );
+  myCam.apply();
+
+  //box display for testing, delete in prod
+  strokeWeight(2);
+  translate(width/2, height/2, -100);
+  noFill();
+  box(250);
 
   //mandatory update stuff
-  myRenderer.display();
+  myRenderer.display(x,y,z);
   myPhys.update();
+
+  myGUI.display();
 }
