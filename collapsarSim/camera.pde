@@ -4,6 +4,7 @@ class SimCamera {
     float z;
     int num;
     boolean inverseX, inverseY,inverseZ;
+    boolean is_moving;
 
     SimCamera (){
         x = 0;
@@ -13,6 +14,7 @@ class SimCamera {
         inverseX = false;
         inverseY = false;
         inverseZ = false;
+        is_moving = true;
     }
 
     void apply() {
@@ -52,13 +54,21 @@ class SimCamera {
             inverseZ = false;
         }
 
+        /*
         if (num>=20) {
             println("X is " + x + " and Y is " + y + " and Z is " + z);
             num=0;
         }
+        */
 
         num++;
 
         camera(x, y, z, width/2.0, height/2.0, 0, 0, 1, 0);
+    }
+}
+
+void keyPressed(){
+    if (key=='r' || key == 'R') {
+        myCam.is_moving = false;
     }
 }
