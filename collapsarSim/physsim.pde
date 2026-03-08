@@ -113,9 +113,9 @@ class physics_eng {
 
       if (frameMaxDensity > collapseDensityThreshold && densestParticle != null) {
         hitThreshold++;
-        if (hitThreshold > 10) {
+        if (hitThreshold > 3) {
           println("STAR COLLAPSED! Black Hole Formed!");
-          bh = new BlackHole(densestParticle.pos, densestParticle.vel, densestParticle.mass * 120.0f * densestParticle.density, searchRadius * 3.0f);
+          bh = new BlackHole(new PVector(0,0,0), densestParticle.vel, densestParticle.mass * 120.0f * densestParticle.density, searchRadius * 3.0f);
           densestParticle.alive = false;
           hitThreshold = 0;
         }
