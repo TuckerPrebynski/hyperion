@@ -27,17 +27,20 @@
 - [🌌 The Visual Process](#the-visual-process)
 - [📚 Links and References](#links-and-references)
 
+---
+
 <a id="overview"></a>
 ## Overview
 
-A Collapsar occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole. 
+A **Collapsar** occurs when a massive star runs out of fuel. In this simulation, we model the moment gravity overcomes outward radiation pressure, causing the star to collapse into a black hole.
 
-Because the star is naturally spinning, the infalling material forms a hot, spinning accretion disk rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)** (powerful jets of energy) and a **hypernova** explosion.
-
+Because the star is naturally spinning, the infalling material forms a hot, spinning **accretion disk** rather than falling straight in. This process triggers **Gamma-Ray Bursts (GRBs)**, powerful relativistic jets, and ultimately a **hypernova** explosion.
 
 <p align="center">
-  <img src="media/lifecycle.png" width="600">
+  <img src="media/lifecycle.png" alt="Collapsar Lifecycle" width="600">
 </p>
+
+---
 
 <a id="meet-the-team"></a>
 ## 👥 Meet the Team
