@@ -33,7 +33,7 @@ class BlackHole {
             if (dist < r_in * 2.0) { // Just outside the absolute point of no return
                 
                 // 5% chance a particle gets caught in the magnetic jet instead of eaten
-                if (random(1) < 0.05) {
+                if (random(1) < 0.005) {
                     
                     // Shoot it out the Y-axis (Up if above equator, Down if below)
                     float jetDirection = (p.pos.y > pos.y) ? 1.0 : -1.0;
@@ -84,7 +84,7 @@ class BlackHole {
     
     private void consume(Particle p) {
         // Conservation of momentum: m1v1 + m2v2 = (m1+m2)vf
-        float totalMass = mass + p.mass;
+        float totalMass = mass*1.001 + p.mass;
         PVector momBH = PVector.mult(vel, mass);
         PVector momP = PVector.mult(p.vel, p.mass);
         
@@ -99,31 +99,35 @@ class BlackHole {
         
         // Flag for deletion (We don't remove it from the array yet to prevent crashing)
         p.alive = false; 
+        r_acc += 0.1f;
+        r_in = r_acc * 0.1f;
     }
     
     // Apply massive gravity to all remaining SPH particles
-    void applyGravity(System data, float[] ax, float[] ay, float[] az, float gravityG) {
+    void applyGravity(float[] ax, float[] ay, float[] az, float gravityG) {
         spinAxis = new PVector(0, 1, 0); // The axis the black hole spins around (Up)    
-        for (int i = 0; i < data.particles.size(); i++) {
-            Particle p = data.particles.get(i);
+        for (int i = 0; i < mySystem.particles.size(); i++) {
+            Particle p = mySystem.particles.get(i);
             if (!p.alive) continue;
             
             // --- 1. SHARED MATH ---
             PVector dir = PVector.sub(pos, p.pos); // Vector pointing to BH
+            
             float distSq = dir.magSq() + 10.0f;    // Softened distance squared
+            //if(distSq > 2000){distSq = 2000;}
             float dist = sqrt(distSq);             // Actual distance
             
             dir.normalize(); // We need the normalized direction for both forces
-            
+            float away = dir.copy().mult(-1).dot(p.vel);
             // --- 2. GRAVITY FORCE ---
             // Newton's Law: a = G * M / r^2
-            float gravMag = (gravityG * mass) / distSq; 
+            float gravMag = ((gravityG * mass) / distSq); 
             
             // --- 3. SPIN FORCE ---
             // Tangent vector perpendicular to gravity and the Y-axis
             PVector tangent = spinAxis.cross(dir).normalize();
             // Spin gets stronger as it gets closer
-            float spinMag = 9000.0f / dist; 
+            float spinMag = 900.0f / dist; 
             
             // --- 4. FLATTENING DRAG (Accretion Disk) ---
             // Slowly dampen the Y-velocity so particles settle into the X/Z equator
@@ -136,9 +140,14 @@ class BlackHole {
             float totalAz = (dir.z * gravMag) + (tangent.z * spinMag);
             
             // Update the acceleration arrays exactly ONCE per particle
-            ax[i] = ax[i] + totalAx;
-            ay[i] = ay[i] + totalAy;
-            az[i] = az[i] + totalAz;
+            float scale = 5;
+            float negscale = min(.8f,(1/away));
+            ax[i] = ax[i]* negscale+ totalAx*scale;
+            ay[i] = ay[i]*negscale + totalAy*scale;
+            az[i] = az[i]*negscale + totalAz*scale;
+            if(stepsleft > 0){
+              p.vel = p.vel.mult(stepsscale);
+            }
         }
     }
 }
