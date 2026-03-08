@@ -55,72 +55,106 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 <a id="running-the-simulation"></a>
 ## 🎮 Running the Simulation
 
-```
-Space - Pause/unpause toggle
-R - Rotates 360 (navigation limited to ⬆️ and ⬇️ arrows)
-⬆️, ⬇️, ⬅️, and ➡️ Arrows - Manually rotates the camera (R toggle OFF)
-```
+### Controls
+
+- **Space** — Pause / unpause
+- **R** — Rotates the camera 360°  
+  *(navigation becomes limited to the ⬆️ and ⬇️ arrow keys)*
+- **⬆️ ⬇️ ⬅️ ➡️ Arrow Keys** — Manually rotate the camera when the **R** toggle is off
+
+---
 
 <a id="framework-and-implementation"></a>
 ## ⚙️ Framework and Implementation
 
+- **Particle systems** to simulate the star’s structure and motion
+- **Camera controls** for observing the collapse from multiple angles
+- **SPH** implementation of smooth partical hydrodynamics
+- **Code imeplementation of Kepler's** to clculate parameters for the Black Hole
+
 This project was developed using Processing for both visualization and implementation. We relied heavily on the official [Processing documentation](https://processing.org/reference/ArrayList.html)!
+
+---
 
 <a id="the-visual-process"></a>
 ## 🌌 The Visual Process
 
 <p align="center">
-<strong>5,000 particles</strong>
+  <strong>5,000 particles</strong>
 </p>
 
 <p align="center">
-  <img src="media/img1.png" width="600">
+  <img src="media/img1.png" alt="5,000 particles" width="600">
 </p>
 
 <p align="center">
-<strong>Particles forming into a spherical object</strong>
+  <strong>Particles forming into a spherical object</strong>
 </p>
-
-![ThrowEmInACircle](media/gif1.gif)
 
 <p align="center">
-<strong>First peek of the camera work</strong>
+  <img src="media/gif1.gif" alt="Particles forming into a spherical object" width="600">
 </p>
-
-![CameraworkDraft](media/gif2.gif)
 
 <p align="center">
-<strong>Shape structure</strong> 
+  <strong>First peek of the camera work</strong>
 </p>
-
-![CircleInaBox](media/gif3.gif)
 
 <p align="center">
-<strong>Implosion draft</strong>
+  <img src="media/gif2.gif" alt="First peek of the camera work" width="600">
 </p>
-
-![FirstKaboom](media/gif4.gif)
 
 <p align="center">
-<strong>Implosion into Black hole draft</strong>
+  <strong>Shape structure</strong>
 </p>
-
-![KaboomPerfect](media/gif5.gif)
 
 <p align="center">
-<strong>Black hole draft</strong>
+  <img src="media/gif3.gif" alt="Shape structure" width="600">
 </p>
 
-![FirstBlackHole](media/gif6.gif)
+<p align="center">
+  <strong>Implosion draft</strong>
+</p>
 
+<p align="center">
+  <img src="media/gif4.gif" alt="Implosion draft" width="600">
+</p>
+
+<p align="center">
+  <strong>Implosion into black hole draft</strong>
+</p>
+
+<p align="center">
+  <img src="media/gif5.gif" alt="Implosion into black hole draft" width="600">
+</p>
+
+<p align="center">
+  <strong>Black hole draft</strong>
+</p>
+
+<p align="center">
+  <img src="media/gif6.gif" alt="Black hole draft" width="600">
+</p>
+
+---
 
 <a id="links-and-references"></a>
 ## 📚 Links
 
+[**Channa J.**](https://www.linkedin.com/in/channa-johnson-85018b16b/)
+[**Dan O.**]()
+**Lila P.**
+[**Sage E.**](https://www.linkedin.com/in/sage-b-ebert/)
 
-**Want a deeper dive into the project? Check out our Google Doc [here!](https://docs.google.com/document/d/1_Y3OA4gx3A6Lj1nX1JPAvsthqIQH9s7wRs-A8DgGQSU/edit?usp=sharing)**
+<p align="center">
+  <strong>Want a deeper dive into the project?</strong><br>
+  Check out our full Google Doc documentation
+  <a href="https://docs.google.com/document/d/1_Y3OA4gx3A6Lj1nX1JPAvsthqIQH9s7wRs-A8DgGQSU/edit?usp=sharing">here</a>.
+</p>
 
+---
 
-## Thank you for your time, and thank you HackCU!
+<h2 align="center">Thank you for your time, and thank you HackCU!</h2>
 
-![LogoFinish](media/logo.png)
+<p align="center">
+  <img src="media/logo.png" alt="Hyperion Logo" width="250">
+</p>
