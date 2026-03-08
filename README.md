@@ -33,33 +33,47 @@ Because the star is naturally spinning, the infalling material forms a hot, spin
 
 ## 🤩 The Visual Process
 
+<p align="center">
 **5,000 particles**
+</p>
 
 <p align="center">
   <img src="media/img1.png" width="600">
 </p>
 
-**Particles formed into a spherical object**
+<p align="center">
+**Particles forming into a spherical object**
+</p>
 
 ![ThrowEmInACircle](media/gif1.gif)
 
+<p align="center">
 **First peek of the camera work**
+</p>
 
 ![CameraworkDraft](media/gif2.gif)
 
+<p align="center">
 **Shape structure** 
+</p>
 
 ![CircleInaBox](media/gif3.gif)
 
+<p align="center">
 **Implosion draft**
+</p>
 
 ![FirstKaboom](media/gif4.gif)
 
+<p align="center">
 **Implosion into Black hole draft**
+</p>
 
 ![KaboomPerfect](media/gif5.gif)
 
+<p align="center">
 **Black hole draft**
+</p>
 
 ![FirstBlackHole](media/gif6.gif)
 
