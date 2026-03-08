@@ -1,7 +1,6 @@
 // BarnesHutTree.pde
 // BACKEND: $O(N \log N)$ spatial partitioning for self-gravity
 
-/*
 class BarnesHutNode {
     float x, y, z, width;         // Bounding box center and size
     float mass, comX, comY, comZ; // Center of Mass data
@@ -137,4 +136,3 @@ class BarnesHutTree {
         return oct;
     }
 }
-    */
