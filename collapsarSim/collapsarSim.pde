@@ -4,6 +4,8 @@ physics_eng myPhys;
 GUI myGUI;
 SimCamera myCam;
 
+PShape starField;
+
 // --- 1. MULTITHREADING VARIABLES ---
 class RenderParticle {
     float x, y, z, temp;
@@ -29,7 +31,7 @@ void resetSimulation() {
     mySystem = new System(new PVector(0, 0, 0));
     
      //mySystem.initParticles(6000, 200);
-    mySystem.addStar(5000,200,new PVector(0,0,0));
+    mySystem.addStar(10000,200,new PVector(0,0,0));
     //mySystem.addStar(6000,50,new PVector(-300,300,0));
    
 
@@ -54,8 +56,40 @@ void resetSimulation() {
 }
 
 void setup() {
-    size(2500, 1100, P3D); // Note: this is a massive resolution!
+    size(3900, 2000, P3D);
     resetSimulation();
+
+    // background stars
+    starField = createShape();
+    starField.beginShape(POINTS);
+    starField.stroke(255); // White stars
+    starField.strokeWeight(3); // Size of stars
+  
+    // Generate 5,000 static stars in a sphere or box
+    for (int i = 0; i < 8000; i++) {
+        float x = 0, y = 0, z = 0;
+        float innerLimit = 2000;
+        float outerLimit = 10000;
+
+        boolean insideForbiddenZone = true;
+
+        while (insideForbiddenZone) {
+            x = random(-outerLimit, outerLimit);
+            y = random(-outerLimit, outerLimit);
+            z = random(-outerLimit, outerLimit);
+
+            // Check if it's inside the inner cube
+            if (!(x > -innerLimit && x < innerLimit && 
+                    y > -innerLimit && y < innerLimit && 
+                    z > -innerLimit && z < innerLimit)) {
+                insideForbiddenZone = false;
+            }
+        }
+
+        starField.stroke(random(150,255));
+        starField.vertex(x, y, z);
+    }
+    starField.endShape();
 }
 
 float x = 1;
@@ -112,6 +146,7 @@ void draw() {
             popMatrix();
         }
 
+        shape(starField);
         // RENDER PARTICLES
         myRenderer.display(); 
     }
