@@ -14,8 +14,13 @@ class System{
     void initParticles(int numParts, float rad){
         maxParts = numParts;
         for(int i = 0; i < numParts; i++){
-            float theta = random(rad);
-            PVector newPos = new PVector(sin(theta)*cos(theta), sin(theta)*sin(theta), cos(theta));
+            float theta = acos(1 - 2*random(1)); //polar angle
+            float phi = random(TWO_PI);  //azimuth angle
+            PVector newPos = new PVector(
+                rad*sin(theta)*cos(phi), 
+                rad*sin(theta)*sin(phi), 
+                rad*cos(theta)
+            );
             particles.add(new Particle(newPos));
         }
     }
