@@ -1,9 +1,7 @@
 
 
 class physics_eng {
-    float[] ax; 
-    float[] ay; 
-    float[] az;
+
     System data;
     float dt = 0.016f; 
     float simBounds = 2000.0f; // Total width of your simulation box
@@ -49,10 +47,6 @@ class physics_eng {
     }
 
     public void update() {
-        resetAccelerations();
-        
-        gravityTree.build(data, simBounds);
-        
         // Step 1: Build the searcher grid with current particle positions
         gridSearcher.build(data);
         
@@ -61,37 +55,11 @@ class physics_eng {
         
         // Step 3: Now we can calculate SPH forces using the cached lists!
         calculateDensityAndPressure();
-       
-        for (int i = 0; i < data.numParts; i++) {
-            gravityTree.applyGravity(i, data, ax, ay, az);
-        }
+        calculateForces();
         
-        integrate();
+        // ... (Black hole logic and integration)
     }
-    private void resetAccelerations() {
-    for (int i = 0; i < data.numParts; i++) {
-      ax[i] = 0.0f;
-      ay[i] = 0.0f;
-      az[i] = 0.0f;
-    }
-  }
-    private void integrate() {
-    for (int i = 0; i < data.numParts; i++) {
-      // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
-      data.particles.get(i).vel.x += ax[i] * dt;
-      data.particles.get(i).vel.y += ay[i] * dt;
-      data.particles.get(i).vel.z += az[i] * dt;
-      
-      // Then Update Position using the NEW velocity
-      data.particles.get(i).pos.x += data.particles.get(i).vel.x * dt;
-      data.particles.get(i).pos.y += data.particles.get(i).vel.x * dt;
-      data.particles.get(i).pos.z += data.particles.get(i).vel.x * dt;
-      
-      // Optional: Update temperature based on velocity/pressure 
-      // so the frontend team can make fast particles glow brighter!
-      // data.temperature[i] = ... 
-    }
-  }
+
     // Translated from the textbook's ParticleSystemData3::buildNeighborLists
     private void buildNeighborLists() {
         for (int i = 0; i < data.numParts; i++) {
@@ -175,30 +143,30 @@ class physics_eng {
         
         // Convert Force to Acceleration (F = ma => a = F/m). 
         // We divide by density because this is a fluid force.
-        ax[i] += forceX/data.particles.get(i).density; 
-        ay[i] += forceY/data.particles.get(i).density;
-        az[i] += forceZ/data.particles.get(i).density;
+        data.particles.get(i).acc.x += forceX/data.particles.get(i).density; 
+        data.particles.get(i).acc.y += forceY/data.particles.get(i).density;
+        data.particles.get(i).acc.z += forceZ/data.particles.get(i).density;
     }
 }
 
-//private void calculateForces() {
-//    for (int i = 0; i < data.numParts; i++) {
+private void calculateForces() {
+    for (int i = 0; i < data.numParts; i++) {
         
-//        // Use the grid searcher to find neighbors and calculate SPH Density
-//        gridSearcher.forEachNearbyPoint(
-//            data.particles.get(i).pos.x, data.particles.get(i).pos.y, data.particles.get(i).pos.z, 
-//            smoothingRadius, 
-//            data, 
-//            new NeighborCallback() {
-//                public void onNeighborFound(int neighborIndex) {
-//                    // DO SPH MATH HERE!
-//                    // This code runs for every neighbor found.
-//                    // e.g., density[i] += calculateKernelMath(distSq);
-//                }
-//            }
-//        );
+        // Use the grid searcher to find neighbors and calculate SPH Density
+        gridSearcher.forEachNearbyPoint(
+            data.particles.get(i).pos.x, data.particles.get(i).pos.y, data.particles.get(i).pos.z, 
+            smoothingRadius, 
+            data, 
+            new NeighborCallback() {
+                public void onNeighborFound(int neighborIndex) {
+                    // DO SPH MATH HERE!
+                    // This code runs for every neighbor found.
+                    // e.g., density[i] += calculateKernelMath(distSq);
+                }
+            }
+        );
         
-//        // ... apply gravity, etc.
-//    }
-//}
+        // ... apply gravity, etc.
+    }
+}
     }
