@@ -72,12 +72,12 @@ class physics_eng {
     }
     private void resetAccelerations() {
         println(data.numParts);
-    for (int i = 0; i < data.numParts; i++) {
-      ax[i] = 0.0f;
-      ay[i] = 0.0f;
-      az[i] = 0.0f;
+        for (int i = 0; i < data.numParts; i++) {
+            ax[i] = 0.0f;
+            ay[i] = 0.0f;
+            az[i] = 0.0f;
+        }
     }
-  }
     private void integrate() {
     for (int i = 0; i < data.numParts; i++) {
       // Update Velocity FIRST (This makes it Semi-Implicit instead of Explicit)
